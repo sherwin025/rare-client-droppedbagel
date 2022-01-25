@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getAllComments } from "./CommentManager";
+import { useParams } from "react-router-dom";
+
+import { getCommentsByPost } from "./CommentManager";
 
 
 export const CommentList = () => {
+    const {postId} = useParams()
 
     const [comments, setComments] = useState([])
     useEffect(()=> {
-        getAllComments().then(setComments)
-    },[])
+        getCommentsByPost(postId).then(setComments)
+    },[postId])
 
     return (
         <div className = "commentList">
