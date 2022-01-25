@@ -1,5 +1,7 @@
 import React from "react"
 import { Route } from "react-router-dom"
+import { Users } from "./Users/Users"
+import { UserPage } from "./Users/UserPage"
 import { PostDetail } from "./posts/Postdetail"
 import { PostList } from "./posts/Postlist"
 import { CategoryList } from "./categories/CategoryList"
@@ -24,5 +26,13 @@ export const ApplicationViews = () => {
     <Route exact path="/tags">
       <TagManagement />
     </Route>
+          
+    <Route exact path="/users">
+        <Users />
+      </Route>
+    <Route exact path="/users/:userId">
+        <UserPage />
+    </Route>
+
   </>)
 }
