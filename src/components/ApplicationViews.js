@@ -7,6 +7,7 @@ import { PostList } from "./posts/Postlist"
 import { CategoryList } from "./categories/CategoryList"
 import { TagManagement } from "./tags/TagManagement"
 import { EditCategory } from "./categories/EditCategory"
+import { CommentList } from "./comments/CommentList"
 
 export const ApplicationViews = () => {
   return (<>
@@ -32,6 +33,9 @@ export const ApplicationViews = () => {
       </Route>
     <Route exact path="/users/:userId">
         <UserPage />
+    </Route>
+    <Route exact path="/comments/:postId(\d+)">
+        <CommentList />
     </Route>
 
   </>)
