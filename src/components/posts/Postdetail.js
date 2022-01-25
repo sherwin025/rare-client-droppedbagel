@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getSinglePost } from "./PostManager"
 
 export const PostDetail = () => {
     const { postId } = useParams()
     const [post, setpost] = useState([])
+    const history = useHistory()
 
     useEffect((
         () => {
@@ -18,7 +20,7 @@ export const PostDetail = () => {
             <div>{post.user_id}</div>
             <div>{post.category_id}</div>
             <div>{post.content}</div>
-
+            <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
         </div>
     </>)
 }
