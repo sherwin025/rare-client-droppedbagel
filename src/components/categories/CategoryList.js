@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
-import { getCategories, uploadCategory } from "../../apimanager/categoryFetches"
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
+import { deleteCategory, getCategories, uploadCategory } from "../../apimanager/categoryFetches"
 import "./category.css"
 
 
@@ -7,6 +8,7 @@ export const CategoryList = () => {
     const [categories, setCategories] = useState([])
     const [newCategory, setNewCategory] = useState({})
     const label = useRef(null)
+    const history = useHistory()
 
     useEffect(() => {
         getCategories()
@@ -29,6 +31,7 @@ export const CategoryList = () => {
 
         uploadCategory(newCatObj)
         .then(syncCategories)
+        .then(() => {label.current.value = null})
     
     }
 
@@ -42,9 +45,13 @@ export const CategoryList = () => {
                 return <fieldset>
                     <div>
                         <h4>{cat.label}</h4>
-                        <button>Edit</button><button>Delete</button>
+                        <button onClick={() => {
+                            history.push(`/categories/${cat.id}`)
+                            
+                        }}>Edit</button><button onClick={() => {
+                            deleteCategory(cat.id).then(() => {syncCategories()})
+                        }}>Delete</button>
                     </div>
-
                 </fieldset>
             })
         }
