@@ -9,6 +9,9 @@ import { TagManagement } from "./tags/TagManagement"
 import { UserPostList } from "./posts/UserPosts"
 import { NewPost } from "./posts/NewPost"
 import { EditCategory } from "./categories/EditCategory"
+import { CommentList } from "./comments/CommentList"
+import { CommentForm } from "./comments/CommentForm"
+import { Landing } from "./home/Landing"
 
 export const ApplicationViews = () => {
   return (<>
@@ -23,8 +26,8 @@ export const ApplicationViews = () => {
       <CategoryList />
     </Route>
     <Route exact path="/categories/:catId(\d+)">
-            <EditCategory />
-        </Route>
+      <EditCategory />
+    </Route>
     <Route exact path="/tags">
       <TagManagement />
     </Route>
@@ -40,5 +43,15 @@ export const ApplicationViews = () => {
     <Route exact path="/users/:userId">
         <UserPage />
     </Route>
+    <Route exact path="/comments/:postId(\d+)">
+        <CommentList />
+    </Route>
+    <Route exact path="/commentForm/:postId(\d+)">
+        <CommentForm />
+    </Route>
+    <Route exact path="/">
+        <Landing />
+      </Route>
+
   </>)
 }
