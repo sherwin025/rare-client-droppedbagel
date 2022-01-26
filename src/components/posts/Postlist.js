@@ -93,7 +93,9 @@ export const PostList = () => {
     const filterTag = (tagType) => {
         let postsCopy = posts.map(post => ({ ...post }))
         const filteredPosts = postsCopy.filter(each => {
-            return each.tag.label == userType
+            return each.tags.find((tag) => {
+                return tag === tagType
+            })
         })
         setFiltered(filteredPosts)
     }

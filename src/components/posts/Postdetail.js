@@ -5,7 +5,7 @@ import { getSinglePost } from "./PostManager"
 
 export const PostDetail = () => {
     const { postId } = useParams()
-    const [each, setpost] = useState({})
+    const [post, setpost] = useState({})
     const history = useHistory()
 
     useEffect((
