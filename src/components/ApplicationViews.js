@@ -26,8 +26,8 @@ export const ApplicationViews = () => {
       <CategoryList />
     </Route>
     <Route exact path="/categories/:catId(\d+)">
-            <EditCategory />
-        </Route>
+      <EditCategory />
+    </Route>
     <Route exact path="/tags">
       <TagManagement />
     </Route>
