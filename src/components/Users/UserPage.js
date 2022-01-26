@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useHistory, Link, useLocation} from "react-router-dom"
+import { uploadSubscription } from "../../apimanager/subscriptionFetches"
 import {getSingleUser} from './userManager'
 
 export const UserPage = () => {
     const { userId } = useParams()
+    const history = useHistory()
 
 
      // Use States
@@ -23,6 +25,20 @@ export const UserPage = () => {
             []
         )
 
+        const handleSub = (evt) => {
+            // evt.preventDefault()
+    
+            const newSubObj = {
+                follower_id: +user.id,
+                author_id: +localStorage.getItem('token')
+            }
+    
+            uploadSubscription(newSubObj)
+            .then(() => {history.push('/')})
+            
+        
+        }
+
         return (
             <>
                
@@ -32,6 +48,7 @@ export const UserPage = () => {
                     <p>Username: {user.username}</p>
                     <p>Created: {user.created_on}</p>
                     <p>Bio: {user.bio}</p>
+                    <button onClick={handleSub}>Subscribe</button>
                 </div>
              
             </>
