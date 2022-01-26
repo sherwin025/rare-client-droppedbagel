@@ -15,8 +15,8 @@ export const PostDetail = () => {
     return (<>
         <div key={post.id} className="indpost">
             <div> {post.title}</div>
-            <div>{post.user_id}</div>
-            <div>{post.category_id}</div>
+            <div>{post.user.last_name} {post.user.first_name}</div>
+            <div>{post.category.label}</div>
             <div>{post.content}</div>
 
         </div>
