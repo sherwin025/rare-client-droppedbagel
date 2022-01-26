@@ -12,6 +12,18 @@ export const EditPost = () => {
     const [categories, setCategories] = useState([])
     const [tags, setTags] = useState([])
     const history = useHistory()
+    const [postTags, setPostTags] = useState([])
+    
+    useEffect(() => {
+        let postTags = []
+        if (post.tags?.length > 0) {
+            for (const tagId of post.tags) {
+                postTags.push(tagId)
+            }
+            setPostTags(postTags)
+
+        }
+    }, [post])
 
     useEffect(() => {
         getAllTags().then(setTags)
@@ -25,6 +37,20 @@ export const EditPost = () => {
         getSinglePost(postId).then(setPost)
     }, [postId])
 
+    const checkTag = (event) => {
+        let tagId = parseInt(event.target.value)
+        let copy = [...postTags]
+        let alreadySelected = copy.find((tag) => tag === tagId)
+        if (alreadySelected) {
+            let newCopy = copy.filter((id) => id !== tagId)
+            setPostTags(newCopy)
+        } else {
+            copy.push(tagId)
+            setPostTags(copy)
+        }
+    }
+
+
     const handleControlledInput = (event) => {
         const newPost = Object.assign({}, post)
         if (event.target.name === "category_id") {
@@ -36,11 +62,11 @@ export const EditPost = () => {
     }
 
     const saveUpdate = () => {
-        updatePost(postId, post)
+        const updatedPost = Object.assign({}, post)
+        updatedPost.tags = postTags
+        updatePost(postId, updatedPost)
             .then(() => history.push(`/posts/${postId}`))
     }
-
-    //Post Info to Edit: category-id, title, image-url, content
 
     return (
         <div className="edit-form">
@@ -61,8 +87,8 @@ export const EditPost = () => {
                     tags.map((tag) => {
                         return <div key={tag.id}>
                             <input type="checkbox" id={tag.id} name="tags" value={tag.id}
-                            checked={post.tags?.find((tagId) => tagId === tag.id)? "checked" : ""}
-                            onChange={() => {}}> 
+                            checked={postTags.find((tagId) => tagId === tag.id)? "checked" : ""}
+                            onChange={checkTag}> 
                             </input>
                             <label htmlFor={tag.id}>{tag.label}</label>
                         </div>
