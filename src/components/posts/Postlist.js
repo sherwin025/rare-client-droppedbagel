@@ -18,8 +18,8 @@ return (<>
         posts.map(each => {
             return <div key={each.id} className="indpost">
                  <div><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                 <div>{each.user.last_name} {each.user.first_name}</div>
-                 <div>{each.category.label}</div>
+                 <div>{each.user?.last_name} {each.user?.first_name}</div>
+                 <div>{each.category?.label}</div>
                  <div>{each.content}</div>
                  </div>
         })

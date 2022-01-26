@@ -17,8 +17,8 @@ export const PostDetail = () => {
     return (<>
         <div key={post.id} className="indpost">
             <div> {post.title}</div>
-            <div>{post.user.last_name} {post.user.first_name}</div>
-            <div>{post.category.label}</div>
+            <div>{post.user?.last_name} {post.user?.first_name}</div>
+            <div>{post.category?.label}</div>
             <div>{post.content}</div>
             <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
             <button onClick={() => history.push(`/commentForm/${post.id}`)}>Add Comment</button>
