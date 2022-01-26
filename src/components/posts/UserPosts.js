@@ -39,8 +39,8 @@ return (<>
         getuserposts().map(each => {
             return <div key={each.id} className="indpost">
                  <div><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                 <div>{each.user_id}</div>
-                 <div>{each.category_id}</div>
+                 <div>{each.user?.first_name} {each.user?.last_name}</div>
+                 <div>{each.category?.label}</div>
                  <div>{each.content}</div>
                  <div>
                      <button onClick={()=> {history.push(`/editPost/${each.id}`)}}>edit</button>

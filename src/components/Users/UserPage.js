@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useHistory, Link, useLocation} from "react-router-dom"
-import { uploadSubscription } from "../../apimanager/subscriptionFetches"
+import { deleteSubscription, getUsersSubscriptions, uploadSubscription } from "../../apimanager/subscriptionFetches"
 import {getSingleUser} from './userManager'
 
 export const UserPage = () => {
     const { userId } = useParams()
     const history = useHistory()
+    const [usersSubs, setUsersSubs] = useState([])
 
 
      // Use States
@@ -25,20 +26,32 @@ export const UserPage = () => {
             []
         )
 
+        useEffect(() => {
+            getUsersSubscriptions(+localStorage.getItem('token')).then(setUsersSubs)
+        },[])
+
+        const areTheySubbed = usersSubs.filter(user => {
+            if (+user.follower_id === +userId) {
+                return true
+            }
+            return false
+        })
+        
         const handleSub = (evt) => {
             // evt.preventDefault()
-    
+            
             const newSubObj = {
                 follower_id: +user.id,
                 author_id: +localStorage.getItem('token')
             }
-    
+            
             uploadSubscription(newSubObj)
             .then(() => {history.push('/')})
             
-        
+            
         }
-
+        
+        
         return (
             <>
                
@@ -48,7 +61,13 @@ export const UserPage = () => {
                     <p>Username: {user.username}</p>
                     <p>Created: {user.created_on}</p>
                     <p>Bio: {user.bio}</p>
-                    <button onClick={handleSub}>Subscribe</button>
+                    {
+                        !! areTheySubbed.length > 0
+                        ? <button onClick={() => {
+                            deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
+                        }}>Unsubscribe</button>
+                        : <button onClick={handleSub}>Subscribe</button>
+                    }
                 </div>
              
             </>
