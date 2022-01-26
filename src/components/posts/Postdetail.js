@@ -21,7 +21,7 @@ export const PostDetail = () => {
             <div>{post.category_id}</div>
             <div>{post.content}</div>
             <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
-            <button onClick={() => history.push('/commentForm')}>Add Comment</button>
+            <button onClick={() => history.push(`/commentForm/${post.id}`)}>Add Comment</button>
         </div>
     </>)
 }

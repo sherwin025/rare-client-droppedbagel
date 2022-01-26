@@ -39,7 +39,7 @@ export const CommentList = () => {
                 }
 
             </div>
-            <button onClick={() => history.push('/commentForm')}>Add Comment</button>
+            <button onClick={() => history.push(`/commentForm/${postId}`)}>Add Comment</button>
         </>
     )
 }
