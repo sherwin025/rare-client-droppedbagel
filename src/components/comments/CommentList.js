@@ -16,7 +16,6 @@ export const CommentList = () => {
         getCommentsByPost(postId).then(setComments)
     }, [postId])
 
-    //history.push should push to the comment form path and also provide the postId value to be automatically used in the comment form
     return (
         <>
             <div className="commentList">
