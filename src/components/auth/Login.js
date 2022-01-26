@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import { loginUser } from "./AuthManager"
+import "./auth.css"
+import Logo from "../nav/rare.jpeg" 
 
 export const Login = ({ setToken }) => {
   const username = useRef()
@@ -29,32 +31,31 @@ export const Login = ({ setToken }) => {
 
   return (
     <section className="columns is-centered">
-      <form className="column is-two-thirds" onSubmit={handleLogin}>
-        <h1 className="title">Rare Publishing</h1>
-        <p className="subtitle">Please sign in</p>
-
-        <div className="field">
-          <label className="label">Username</label>
+      <form className="centered" onSubmit={handleLogin}>
+        <h1 className="title centered raretitle">Rare</h1>
+        <div className="imgbox">
+          <img src={Logo} className="imgcentered" />
+        </div>
+        <div className="field centered">
           <div className="control">
-            <input className="input" type="text" ref={username} />
+            <input className="input" type="text" placeholder="Username" ref={username} />
           </div>
         </div>
 
-        <div className="field">
-          <label className="label">Password</label>
+        <div className="field centered">
           <div className="control">
-            <input className="input" type="password" ref={password} />
+            <input className="input" type="password" placeholder="Password" ref={password} />
           </div>
         </div>
 
-        <div className="field is-grouped">
-          <div className="control">
-            <button className="button is-link" type="submit" >Submit</button>
+        <div className="field centered">
+            <button className="input loginbtn" type="submit" >Login</button>
           </div>
-          <div className="control">
-            <Link to="/register" className="button is-link is-light">Cancel</Link>
+
+
+          <div className="field">
+            <Link to="/register" className="button is-link is-light">Don't have an account yet? Click here to sign up!</Link>
           </div>
-        </div>
         {
           isUnsuccessful ? <p className="help is-danger">Username or password not valid</p> : ''
         }
