@@ -16,7 +16,7 @@ import { Landing } from "./home/Landing"
 
 export const ApplicationViews = () => {
   return (<>
-    <h1 >Welcome to Rare Publishing</h1>
+
     <Route exact path="/posts" >
       <PostList/>
     </Route>
