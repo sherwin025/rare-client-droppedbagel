@@ -4,21 +4,21 @@ import { getSinglePost } from "./PostManager"
 
 export const PostDetail = () => {
     const { postId } = useParams()
-    const [post, setpost] = useState([])
+    const [each, setpost] = useState({})
 
     useEffect((
         () => {
-            getSinglePost(postId).then(res => setpost(res))
+            getSinglePost(parseInt(postId)).then(res => setpost(res))
         }
     ), [])
 
     return (<>
-        <div key={post.id} className="indpost">
-            <div> {post.title}</div>
-            <div>{post.user.last_name} {post.user.first_name}</div>
-            <div>{post.category.label}</div>
-            <div>{post.content}</div>
-
+            <div key={each.id} className="indpost">
+            <div> {each.title}</div>
+            <div>{each.content}</div>
+            <div>{each.user?.first_name} {each.user?.last_name}</div>
+            <div>{each.category?.label}</div>
         </div>
+
     </>)
 }
