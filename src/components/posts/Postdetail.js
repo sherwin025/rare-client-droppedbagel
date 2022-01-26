@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getSinglePost } from "./PostManager"
 
 export const PostDetail = () => {
     const { postId } = useParams()
     const [each, setpost] = useState({})
+    const history = useHistory()
 
     useEffect((
         () => {
@@ -13,11 +15,13 @@ export const PostDetail = () => {
     ), [])
 
     return (<>
-            <div key={each.id} className="indpost">
-            <div> {each.title}</div>
-            <div>{each.content}</div>
-            <div>{each.user?.first_name} {each.user?.last_name}</div>
-            <div>{each.category?.label}</div>
+        <div key={post.id} className="indpost">
+            <div> {post.title}</div>
+            <div>{post.user?.last_name} {post.user?.first_name}</div>
+            <div>{post.category?.label}</div>
+            <div>{post.content}</div>
+            <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
+            <button onClick={() => history.push(`/commentForm/${post.id}`)}>Add Comment</button>
         </div>
 
     </>)
