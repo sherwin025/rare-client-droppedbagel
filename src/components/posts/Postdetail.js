@@ -5,12 +5,12 @@ import { getSinglePost } from "./PostManager"
 
 export const PostDetail = () => {
     const { postId } = useParams()
-    const [post, setpost] = useState([])
+    const [each, setpost] = useState({})
     const history = useHistory()
 
     useEffect((
         () => {
-            getSinglePost(postId).then(res => setpost(res))
+            getSinglePost(parseInt(postId)).then(res => setpost(res))
         }
     ), [])
 
@@ -23,5 +23,6 @@ export const PostDetail = () => {
             <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
             <button onClick={() => history.push(`/commentForm/${post.id}`)}>Add Comment</button>
         </div>
+
     </>)
 }

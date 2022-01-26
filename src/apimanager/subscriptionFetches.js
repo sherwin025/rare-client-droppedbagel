@@ -10,3 +10,13 @@ export const uploadSubscription = (sub) => {
     .then(response => response.json())
 
 }
+
+export const getSubscriptions = () => {
+    return fetch(`http://localhost:8088/subscriptions`)
+    .then(res => res.json())
+}
+
+export const getUsersSubscriptions = (id) => {
+    return fetch(`http://localhost:8088/subscriptions?user_id=${id}`)
+    .then(res => res.json())
+}
