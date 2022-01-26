@@ -1,0 +1,38 @@
+.edit-form {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-content: left;
+    margin-left: 30%;
+}
+
+.field {
+    width: 30rem;
+    margin: 1rem 0;
+}
+
+.tag-options {
+    display: flex;
+    flex-wrap: wrap;
+    width: 30rem;
+}
+
+.option {
+    margin: 0 1rem 0 0;
+}
+
+.checkbox-label {
+    padding-left: 0.25rem;
+}
+
+.form-title {
+    font-size: 1.5rem;
+}
+
+.saveEdit-btn {
+    background-color:rgb(47, 79, 184);
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 3px;
+}

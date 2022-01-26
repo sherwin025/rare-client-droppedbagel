@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getCategories } from "../../apimanager/categoryFetches";
 import { getAllTags } from "../tags/TagManager";
 import { getSinglePost, updatePost } from "./PostManager";
+import "./EditForm.css"
 
 
 export const EditPost = () => {
@@ -13,7 +14,7 @@ export const EditPost = () => {
     const [tags, setTags] = useState([])
     const history = useHistory()
     const [postTags, setPostTags] = useState([])
-    
+
     useEffect(() => {
         let postTags = []
         if (post.tags?.length > 0) {
@@ -27,7 +28,7 @@ export const EditPost = () => {
 
     useEffect(() => {
         getAllTags().then(setTags)
-    },[])
+    }, [])
 
     useEffect(() => {
         getCategories().then(setCategories)
@@ -70,33 +71,47 @@ export const EditPost = () => {
 
     return (
         <div className="edit-form">
-            <h2>Edit Post: {post.title}</h2>
-            <input type="text" value={post.title} name="title" id="title" onChange={handleControlledInput}></input>
-            <select name="category_id" id="category_id" value={post.category_id} onChange={handleControlledInput}>
-                <option value="0">--Select a Different Category</option>
-                {
-                    categories.map((category) => {
-                        return <option key={category.id} value={category.id}>{category.label}</option>
-                    })
-                }
-            </select>
-            <input type="text" value={post.image_url} name="image_url" id="image_url" onChange={handleControlledInput}></input>
-            <input type="textarea" value={post.content} name="content" id="content" onChange={handleControlledInput}></input>
-            <div className="tag-options">
-                {
-                    tags.map((tag) => {
-                        return <div key={tag.id}>
-                            <input type="checkbox" id={tag.id} name="tags" value={tag.id}
-                            checked={postTags.find((tagId) => tagId === tag.id)? "checked" : ""}
-                            onChange={checkTag}> 
-                            </input>
-                            <label htmlFor={tag.id}>{tag.label}</label>
-                        </div>
-                    })
-                }
+            <div className="form-title">Edit Post</div>
+            <div className="field">
+                <input className="input" type="text" value={post.title} name="title" id="title" onChange={handleControlledInput}></input>
             </div>
-            <button onClick={saveUpdate}>Update</button>
+            <div className="field">
+                <input className="input" type="text" value={post.image_url} name="image_url" id="image_url" onChange={handleControlledInput}></input>
+            </div>
+            <div className="field">
+                <textarea className="textarea" type="textarea" value={post.content} name="content" id="content" onChange={handleControlledInput}></textarea>
+            </div>
+            <div className="field">
+                <div className="select">
+                    <select className="select" name="category_id" id="category_id" value={post.category_id} onChange={handleControlledInput}>
+                        <option value="0">--Assign a Different Category--</option>
+                        {
+                            categories.map((category) => {
+                                return <option key={category.id} value={category.id}>{category.label}</option>
+                            })
+                        }
+                    </select>
+                </div>
+            </div>
+            <div className="field">
+                <div className="tag-options">
+                    {
+                        tags.map((tag) => {
+                            return <div key={tag.id} className="option">
+                                <input className="checkbox" type="checkbox" id={tag.id} name="tags" value={tag.id}
+                                    checked={postTags.find((tagId) => tagId === tag.id) ? "checked" : ""}
+                                    onChange={checkTag}>
+                                </input>
+                                <label className="checkbox-label" htmlFor={tag.id}>{tag.label}</label>
+                            </div>
+                        })
+                    }
+                </div>
+            </div>
+            <div className="field">
+                <button className="saveEdit-btn" onClick={saveUpdate}>Save</button>
+            </div>
 
-        </div>
+        </div >
     )
 }
