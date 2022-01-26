@@ -11,6 +11,7 @@ import { NewPost } from "./posts/NewPost"
 import { EditCategory } from "./categories/EditCategory"
 import { CommentList } from "./comments/CommentList"
 import { CommentForm } from "./comments/CommentForm"
+import { EditPost } from "./posts/EditPost"
 import { Landing } from "./home/Landing"
 
 export const ApplicationViews = () => {
@@ -48,6 +49,9 @@ export const ApplicationViews = () => {
     </Route>
     <Route exact path="/commentForm/:postId(\d+)">
         <CommentForm />
+    </Route>
+    <Route exact path="/editPost/:postId(\d+)">
+      <EditPost />
     </Route>
     <Route exact path="/">
         <Landing />
