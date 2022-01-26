@@ -26,12 +26,10 @@ export const Rare = () => {
     }
 
     <Route exact path="/login" >
-      <NavBar token={token} setToken={setToken} />
       <Login token={token} setToken={setToken} />
     </Route>
 
     <Route path="/register" exact>
-      <NavBar token={token} setToken={setToken} />
       <Register token={token} setToken={setToken} />
     </Route>
 
