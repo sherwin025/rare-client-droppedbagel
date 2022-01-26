@@ -9,7 +9,7 @@ import { getAllTags } from "../tags/TagManager";
 export const PostList = () => {
     const [posts, setposts] = useState([])
     const [categories, setCategories] = useState([])
-    const [filteredCategories, setFilteredCategories] = useState([])
+    const [filtered, setFiltered] = useState([])
     const [users, setUsers] = useState([])
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
@@ -30,7 +30,7 @@ export const PostList = () => {
 
     useEffect(
         () => {
-            setFilteredCategories(posts)
+         setFiltered(posts)
         },
         [posts]
     )
@@ -48,7 +48,7 @@ export const PostList = () => {
     useEffect(
         () => {
             search === "" ? GetPosts().then((data) => { setposts(data) }) :
-                setFilteredCategories(posts.filter((post) => {
+                setFiltered(posts.filter((post) => {
                     return post.title.toLowerCase().includes(search.toLowerCase())
                 }))
 
@@ -70,10 +70,10 @@ export const PostList = () => {
         const filteredPosts = postsCopy.filter(each => {
             return each.category.label == categoryType
         })
-        setFilteredCategories(filteredPosts)
+        setFiltered(filteredPosts)
 
         if (categoryType == '') {
-            setFilteredCategories(posts)
+            setFiltered(posts)
         }
     }
 
@@ -82,10 +82,10 @@ export const PostList = () => {
         const filteredPosts = postsCopy.filter(each => {
             return each.user.username == userType
         })
-        setFilteredCategories(filteredPosts)
+        setFiltered(filteredPosts)
 
         if (userType == '') {
-            setFilteredCategories(posts)
+            setFiltered(posts)
         }
     }
 
@@ -95,7 +95,7 @@ export const PostList = () => {
         const filteredPosts = postsCopy.filter(each => {
             return each.tag.label == userType
         })
-        setFilteredCategories(filteredPosts)
+        setFiltered(filteredPosts)
     }
 
     const searchFunction = () => {
@@ -139,7 +139,7 @@ export const PostList = () => {
         </div>
 
         {
-            filteredCategories.map(each => {
+            filtered.map(each => {
                 return <div key={each.id} className="indpost">
                     <div><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
                     <div>{each.user.last_name} {each.user.first_name}</div>
