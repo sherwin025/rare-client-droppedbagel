@@ -30,7 +30,7 @@ export const PostList = () => {
 
     useEffect(
         () => {
-         setFiltered(posts)
+            setFiltered(posts)
         },
         [posts]
     )
@@ -109,44 +109,53 @@ export const PostList = () => {
 
     // JSX ---------------------------------------------------------------------------------------------------------------
     return (<>
-        <select onChange={(evt) => { filterCategory(evt.target.value) }} name="filter" id="filter">
-            <option value="">category</option>
-            {categories.map(category => {
-                return <option value={category.label}>{category.label}</option>
-            })}
-        </select>
+        <div className="filters">
+            <select className="filterBox" onChange={(evt) => { filterCategory(evt.target.value) }} name="filter" id="filter">
+                <option value="">category</option>
+                {categories.map(category => {
+                    return <option value={category.label}>{category.label}</option>
+                })}
+            </select>
 
-        <select onChange={(evt) => { filterUser(evt.target.value) }} name="filter" id="filter">
-            <option value="">user</option>
-            {users.map(user => {
-                return <option value={user.username}>{user.username}</option>
-            })}
-        </select>
+            <select className="filterBox" onChange={(evt) => { filterUser(evt.target.value) }} name="filter" id="filter">
+                <option value="">user</option>
+                {users.map(user => {
+                    return <option value={user.username}>{user.username}</option>
+                })}
+            </select>
 
-        <select onChange={(evt) => { filterTag(evt.target.value) }} name="filter" id="filter">
-            <option value="">tag</option>
-            {tags.map(tag => {
-                return <option value={tag.label}>{tag.label}</option>
-            })}
-        </select>
+            <select className="filterBox" onChange={(evt) => { filterTag(evt.target.value) }} name="filter" id="filter">
+                <option value="">tag</option>
+                {tags.map(tag => {
+                    return <option value={tag.label}>{tag.label}</option>
+                })}
+            </select>
 
-        <div className="searchContainer">
+            <div className="searchContainer">
+                <input className="searchBar" onChange={(e) => {
+                    const searchItem = e.target.value
+                    setSearch(searchItem);
+                }} type="text" placeholder="search..."></input>
+                <button className="submit" type="submit" onClick={() => { searchFunction() }}>go</button>
+            </div>
+        </div>
 
-            <input className="searchBar" onChange={(e) => {
-                const searchItem = e.target.value
-                setSearch(searchItem);
-            }} type="text" placeholder="search..."></input>
-            <button className="submit" type="submit" onClick={() => { searchFunction() }}>go</button>
-
+        <div className="postObj">
+            <div className="postInfo"><b>Title</b></div>
+            <div className="postInfo"><b>Author</b></div>
+            <div className="postInfo"><b>Category</b></div>
+            <div className="postInfo"><b>Content</b></div>
+            <div className="postInfo"><b>Tags</b></div>
         </div>
 
         {
             filtered.map(each => {
-                return <div key={each.id} className="indpost">
-                    <div><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                    <div>{each.user.last_name} {each.user.first_name}</div>
-                    <div>{each.category.label}</div>
-                    <div>{each.content}</div>
+                return <div key={each.id} className="postObj">
+                    <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
+                    <div className="postInfo">{each.user.last_name} {each.user.first_name}</div>
+                    <div className="postInfo">{each.category.label}</div>
+                    <div className="postInfo">{each.content}</div>
+                    <div className="postInfo">{each.tags.map((tag) => { return tag })}</div>
                 </div>
             })
         }
