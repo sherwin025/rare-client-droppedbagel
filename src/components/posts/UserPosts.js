@@ -29,9 +29,14 @@ const getuserposts = () => {
 }
 
 const deletepost = (id) => {
-    deletePost(id)
-    .then(GetPosts)
-    .then(res => setposts(res))
+    let result = confirm("Are you sure you want to delete this post? ")
+    if (result){
+        deletePost(id)
+        .then(GetPosts)
+        .then(res => setposts(res))
+    } else {
+        
+    }
 }
 
 return (<>
