@@ -13,3 +13,13 @@ export const deletePost = (id) => {
         method: "DELETE"
       })
 }
+
+export const updatePost = (id, newPost) => {
+    return fetch(`http://localhost:8088/posts/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newPost)
+    })
+}

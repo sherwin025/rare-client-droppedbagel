@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useHistory } from "react-router-dom"
 import { Link } from "react-router-dom"
 import { deletePost, GetPosts } from "./PostManager"
 
@@ -6,6 +7,7 @@ import { deletePost, GetPosts } from "./PostManager"
 export const UserPostList = () => {
 const [posts, setposts] = useState([])
 const [userposts, setuserposts] = useState([])
+const history = useHistory()
 
 
 useEffect((
@@ -41,7 +43,7 @@ return (<>
                  <div>{each.category_id}</div>
                  <div>{each.content}</div>
                  <div>
-                     <button>edit</button>
+                     <button onClick={()=> {history.push(`/editPost/${each.id}`)}}>edit</button>
                      <button onClick={()=>deletepost(each.id)}>delete</button>
                  </div>
                  </div>
