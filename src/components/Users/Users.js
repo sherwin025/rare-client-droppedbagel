@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useHistory, Link, useLocation} from "react-router-dom"
 import {getAllUsers} from './userManager'
+import "./user.css"
 
 
 export const Users = () => {
@@ -24,13 +25,16 @@ export const Users = () => {
 
         return (
             <>
+            <div className="userBlock">
+            <h1 className="userListHead">Users</h1>
                { users.map((user) => {
-                   return <div>
+                   return <div className="user">
                             <p>UserName: <Link to={`/users/${user.id}`}>{user.username}</Link></p>
                             <p>Full Name: {user.first_name} {user.last_name} </p>
                             <p>Email: {user.email}</p>
                         </div>
                 }) }
+                </div>
             </>
         )
 }
