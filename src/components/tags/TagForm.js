@@ -7,12 +7,12 @@ export const TagForm = ({saveNewLabel}) => {
 
     return (
         <div className="tag-form">
-            <h2>Add a New Tag</h2>
-            <input type="text" placeholder="Label" name="label" id="userLabel"
+            <h1 className="tagHeader">Add a New Tag</h1>
+            <input type="text" placeholder="Add text" name="label" id="userLabel"
                 onChange={(event) => {
                     setLabel(event.target.value)
                 }}></input>
-            <button onClick={() => {
+            <button className="tagButton" onClick={() => {
                 saveNewLabel(label)
                 document.getElementById("userLabel").value=""
             }}>Add</button>
