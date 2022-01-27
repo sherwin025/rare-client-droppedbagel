@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { deleteCategory, getCategories, uploadCategory } from "../../apimanager/categoryFetches"
 import "./category.css"
 import TrashIcon from './trash.svg'
+import { Settings, Delete } from '@material-ui/icons';
 
 
 
@@ -41,31 +42,40 @@ export const CategoryList = () => {
 
     return (
         <>
-        <h1 className="viewHead">Categories</h1>
+            <div className="tagContainer">
 
+        <div className="tagList">
+        <h1 className="tagListHeader">Categories</h1>
         {
             categories.map((cat) => {
                 return <fieldset>
-                    <div className="categoryListItem">
-                        <h4 className="cat">{cat.label}</h4>
-                        <div className="cat"><button onClick={() => {
+                    <div className="tagItem">
+                        <button onClick={() => {
                             history.push(`/categories/${cat.id}`)
                             
-                        }}>Edit</button><button onClick={() => {
+                        }}><Settings /></button><button onClick={() => {
                             deleteCategory(cat.id).then(() => {syncCategories()})
-                        }}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button></div>
+                        }}><Delete /></button>
+                        <h4 className="tag__label" >{cat.label}</h4>
                     </div>
                 </fieldset>
             })
-        }
+        }  </div>
+            {/* <div className="tag-form"> */}
 
-        <fieldset className="category_form">
-        <h2 className="formHead">Create a new category</h2>
-        <input className="formInput" type="text" placeholder="Enter label here" ref={label}></input>
-        <button className="formSubmit" type="submit_category" onClick={() => {handlePost()}}>Create Category</button>
-        </fieldset>
+        <div className="tag-form">
+        <h2 className="tagHeader">Create Category</h2>
+        <input id="userLabel"  type="text" placeholder="Enter label here" ref={label}></input>
+        <button className="tagButton" type="submit_category" onClick={() => {handlePost()}}>Create Category</button>
+        </div>
+
+        </div>
+        
+        {/* </div> */}
         
         
         </>
     )
 }
+
+// className="cat"
