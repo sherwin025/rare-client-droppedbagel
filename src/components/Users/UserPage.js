@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useParams, useHistory, Link, useLocation} from "react-router-dom"
 import { deleteSubscription, getUsersSubscriptions, uploadSubscription } from "../../apimanager/subscriptionFetches"
 import {getSingleUser} from './userManager'
+import "./user.css"
 
 export const UserPage = () => {
     const { userId } = useParams()
@@ -55,19 +56,29 @@ export const UserPage = () => {
         return (
             <>
                
-                <div>
+                <div className="userBlock"><div className="user">
                     <p>Full Name: {user.first_name} {user.last_name} </p>
                     <p>Profile Image: {user.profile_image_url}</p>
                     <p>Username: {user.username}</p>
                     <p>Created: {user.created_on}</p>
                     <p>Bio: {user.bio}</p>
-                    {
+                    {/* {
                         !! areTheySubbed.length > 0
                         ? <button onClick={() => {
                             deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
                         }}>Unsubscribe</button>
                         : <button onClick={handleSub}>Subscribe</button>
-                    }
+                    } */}
+                </div></div>
+                    <div className="subButton">
+                { 
+                        !! areTheySubbed.length > 0
+                        ? <button onClick={() => {
+                            deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
+                        }}>Unsubscribe</button>
+                        : <button onClick={handleSub}>Subscribe</button>
+                    
+                }
                 </div>
              
             </>

@@ -1,0 +1,36 @@
+
+.userBlock{
+    display: flex;
+    margin-top: 5%;
+    flex-direction: column;
+}
+
+
+.user {
+    display: flex;
+    margin: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* margin: 20px; */
+    /* margin-left: 10%; */
+    border: 1px solid black;
+    width: 30%;
+
+}
+
+.userListHead {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: larger;
+
+}
+
+.subButton {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -10%;
+    padding: 10px;
+}
