@@ -1,0 +1,52 @@
+.postDetailContainer {
+    width: 60%;
+    margin: auto;
+}
+
+.postDetailTop {
+    display: flex;
+    margin-top: 10%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.postDetailTitle {
+    font-size: 30px;
+}
+
+.postDetailImage {
+    width: 100%;
+    margin: auto;
+}
+
+.postDetailName {
+    font-size: 12px;
+}
+
+.postDetailCategory {
+   font-size: 12px;
+}
+
+.postDetailContent {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.postDetailViewComments {
+    margin: auto;
+    padding: 1%;
+    background-color: white;
+    border-radius: 15px;
+}
+
+.postDetailAddComments {
+    background-color: white;
+    border: none;
+    color: rgb(127, 175, 115);
+}
+
+.postDetailBottom {
+    display: flex; 
+    align-items: center;
+    margin-top: 2%;
+}
