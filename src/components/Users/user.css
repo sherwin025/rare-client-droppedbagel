@@ -34,3 +34,8 @@
     margin-top: -10%;
     padding: 10px;
 }
+
+.subCount{
+    display: flex;
+    margin-right: 5px;
+}

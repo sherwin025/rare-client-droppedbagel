@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useParams, useHistory, Link, useLocation} from "react-router-dom"
-import { deleteSubscription, getUsersSubscriptions, uploadSubscription } from "../../apimanager/subscriptionFetches"
+import { deleteSubscription, getSubscriptions, getUsersSubscriptions, uploadSubscription } from "../../apimanager/subscriptionFetches"
 import {getSingleUser} from './userManager'
 import "./user.css"
 
@@ -8,6 +8,7 @@ export const UserPage = () => {
     const { userId } = useParams()
     const history = useHistory()
     const [usersSubs, setUsersSubs] = useState([])
+    const [allSubs, setAllSubs] = useState([])
 
 
      // Use States
@@ -31,8 +32,19 @@ export const UserPage = () => {
             getUsersSubscriptions(+localStorage.getItem('token')).then(setUsersSubs)
         },[])
 
+        useEffect(() => {
+            getSubscriptions().then(setAllSubs)
+        },[])
+
         const areTheySubbed = usersSubs.filter(user => {
             if (+user.follower_id === +userId) {
+                return true
+            }
+            return false
+        })
+
+        const subCount = allSubs.filter((sub) => {
+            if (+sub.follower_id === +userId) {
                 return true
             }
             return false
@@ -62,22 +74,15 @@ export const UserPage = () => {
                     <p>Username: {user.username}</p>
                     <p>Created: {user.created_on}</p>
                     <p>Bio: {user.bio}</p>
-                    {/* {
-                        !! areTheySubbed.length > 0
-                        ? <button onClick={() => {
-                            deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
-                        }}>Unsubscribe</button>
-                        : <button onClick={handleSub}>Subscribe</button>
-                    } */}
                 </div></div>
                     <div className="subButton">
+                        <p className="subCount">Sub Count: {subCount.length} </p>
                 { 
                         !! areTheySubbed.length > 0
                         ? <button onClick={() => {
                             deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
                         }}>Unsubscribe</button>
                         : <button onClick={handleSub}>Subscribe</button>
-                    
                 }
                 </div>
              
