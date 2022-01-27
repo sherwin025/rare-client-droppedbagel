@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { deleteCategory, getCategories, uploadCategory } from "../../apimanager/categoryFetches"
 import "./category.css"
+import TrashIcon from './trash.svg'
+
+
 
 
 export const CategoryList = () => {
@@ -38,28 +41,28 @@ export const CategoryList = () => {
 
     return (
         <>
-        <h1>Category List View</h1>
+        <h1 className="viewHead">Categories</h1>
 
         {
             categories.map((cat) => {
                 return <fieldset>
-                    <div>
-                        <h4>{cat.label}</h4>
-                        <button onClick={() => {
+                    <div className="categoryListItem">
+                        <h4 className="cat">{cat.label}</h4>
+                        <div className="cat"><button onClick={() => {
                             history.push(`/categories/${cat.id}`)
                             
                         }}>Edit</button><button onClick={() => {
                             deleteCategory(cat.id).then(() => {syncCategories()})
-                        }}>Delete</button>
+                        }}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button></div>
                     </div>
                 </fieldset>
             })
         }
 
         <fieldset className="category_form">
-        <h2>Create a new category</h2>
-        <input type="text" placeholder="Enter label here" ref={label}></input>
-        <button type="submit_category" onClick={() => {handlePost()}}>Create Category</button>
+        <h2 className="formHead">Create a new category</h2>
+        <input className="formInput" type="text" placeholder="Enter label here" ref={label}></input>
+        <button className="formSubmit" type="submit_category" onClick={() => {handlePost()}}>Create Category</button>
         </fieldset>
         
         
