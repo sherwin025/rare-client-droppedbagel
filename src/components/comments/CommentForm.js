@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { GetPosts } from "../posts/PostManager";
-
+import { GetPosts, getSinglePost } from "../posts/PostManager";
 import { addComment } from "./CommentManager";
+import "./Comments.css"
 
 export const CommentForm = () => {
     const history = useHistory()
     const [userComment, setUserComment] = useState("")
-    const [posts, setPosts] = useState([])
+    const [post, setPost] = useState({})
     const [userPostId, setUserPostId] = useState(0)
 
     const {postId} = useParams()
@@ -18,7 +18,7 @@ export const CommentForm = () => {
     },[postId])
 
     useEffect(() => {
-        GetPosts().then(setPosts)
+        getSinglePost(postId).then(setPost)
     }, [])
 
 
@@ -38,22 +38,15 @@ export const CommentForm = () => {
 
     return (
         <div className="comment-form">
-            <h2>Add a New Comment</h2>
-            <select onChange={(e) => setUserPostId(e.target.value)} value={userPostId}>
-                <option value="0">--Select a Post to Comment On--</option>
-                {
-                    posts.map((post) => {
-                        return <option key={post.id} value={post.id}>{post.title}</option>
-                    })
-                }
-            </select>
-            <input type="textarea" placeholder="Label" name="label" id="comment"
-                onChange={(e) => setUserComment(e.target.value)}></input>
-            <button onClick={() => {
+            <div className="form-title">Add a New Comment to "{post.title}"</div>
+            <textarea className="textarea comment-field" type="textarea" placeholder="Type your comment here..." name="label" id="comment"
+                onChange={(e) => setUserComment(e.target.value)}></textarea>
+            <div className="submit-btn">
+            <button className="submit-comment-btn button" onClick={() => {
                 saveComment()
                 document.getElementById("comment").value = ""
             }}>Submit</button>
-
+            </div>
         </div>
     )
 }

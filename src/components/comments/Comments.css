@@ -1,0 +1,57 @@
+.commentList {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin: 0 26rem;
+    justify-content: space-between;
+}
+
+.comment {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    border: solid rgb(59, 59, 59) 1px;
+    border-radius: 15px;
+    width: 30rem;
+    margin: 1rem; 
+}
+
+.author_btns, .submit-btn {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: right;
+    margin: 0.3rem 0.3rem 0 0;
+}
+
+.comment__content, .comment__author {
+    padding: 0.5rem 1rem;
+}
+
+.add-comment {
+    margin: 2rem 0;
+    display: flex;
+    justify-content: center;
+}
+
+.comment-form {
+    width: 30%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-self: center;
+    margin-left: 35%
+}
+
+.comment-btn {
+    padding: 1rem;
+}
+
+.submit-comment-btn {
+    padding: 1rem;
+    color: rgb(70, 81, 185);
+    border-color: rgb(70, 81, 185);
+}
+
+.comment-field {
+    margin-top: 1rem;
+}
