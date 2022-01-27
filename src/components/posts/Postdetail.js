@@ -26,6 +26,16 @@ export const PostDetail = () => {
             <div className="postDetailBottom">
                 <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
                 <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
+                <div className="postAddReaction">
+                    <select name="reactions" id="reactions">
+                        <option value="happy">😄 </option>
+                        <option value="laugh">😂</option>
+                        <option value="love">😍</option>
+                        <option value="angry">🤬</option>
+                        <option value="mindblown">🤯</option>
+                        <option value="sad">😥</option>
+                    </select>
+                </div>
             </div>
             <div className="postDetailContent">{post.content}</div>
         </div>
