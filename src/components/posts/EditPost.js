@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { getCategories } from "../../apimanager/categoryFetches";
 import { getAllTags } from "../tags/TagManager";
 import { getSinglePost, updatePost } from "./PostManager";
-import "./EditForm.css"
+import "./PostForm.css"
 
 
 export const EditPost = () => {
@@ -84,7 +84,6 @@ export const EditPost = () => {
             <div className="field">
                 <div className="select">
                     <select className="select" name="category_id" id="category_id" value={post.category_id} onChange={handleControlledInput}>
-                        <option value="0">--Assign a Different Category--</option>
                         {
                             categories.map((category) => {
                                 return <option key={category.id} value={category.id}>{category.label}</option>

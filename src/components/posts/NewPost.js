@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import {getAllTags } from "../tags/TagManager.js"
+import { getAllTags } from "../tags/TagManager.js"
 import { getCategories } from "../../apimanager/categoryFetches"
 import { New_entrytags, New_post } from "./PostManager.js"
 import { useHistory } from "react-router-dom"
@@ -12,10 +12,10 @@ export const NewPost = () => {
     const history = useHistory()
     const [usertags, setusertags] = useState([])
 
-    useEffect(()=>{
-        getAllTags().then(res=> settags(res))
-        getCategories().then(res=>setcategories(res))
-    },[])
+    useEffect(() => {
+        getAllTags().then(res => settags(res))
+        getCategories().then(res => setcategories(res))
+    }, [])
 
 
     const handlepostchanges = (event) => {
@@ -32,30 +32,30 @@ export const NewPost = () => {
         copy["user_id"] = parseInt(localStorage.getItem("token"))
 
         New_post(copy)
-        .then((res)=>{
-            for (const tag of usertags ){
-                const tagobject = {
-                    post_id: res.id,
-                    tag_id: tag
+            .then((res) => {
+                for (const tag of usertags) {
+                    const tagobject = {
+                        post_id: res.id,
+                        tag_id: tag
+                    }
+                    New_entrytags(tagobject)
                 }
-                New_entrytags(tagobject)
-            }
-            return res     
-        })
-        .then(res => 
-            history.push(`posts/${res.id}`)
-        )
+                return res
+            })
+            .then(res =>
+                history.push(`posts/${res.id}`)
+            )
     }
 
     const addedtags = (event) => {
         const copy = usertags
         const id = parseInt(event.target.id)
-        if (copy.length === 0){
+        if (copy.length === 0) {
             copy.push(id)
         } else {
-            if (copy.includes(id)){
+            if (copy.includes(id)) {
                 let index = copy.indexOf(id)
-                copy.splice(index,1)
+                copy.splice(index, 1)
             } else {
                 copy.push(id)
             }
@@ -64,44 +64,43 @@ export const NewPost = () => {
     }
 
     return (<>
-        <div className="newPostForm">
-            <div>
-            <label>Category:</label>
-            <select name="category_id"
-                    id="category_id" 
-                    onChange={handlepostchanges}>
-                <option>Choose a post Category:</option>
-                {
-                    categories.map(each => 
-                        <option key={each.id} value={each.id}> {each.label}</option>)
-                }
-            </select>
+        <div className="newPostForm edit-form">
+        <div className="form-title">New Post</div>
+            <div className="field">
+                <input className="input" type="text" name="title" placeholder="Title" onChange={handlepostchanges} />
             </div>
-            <div>
-                <label>Post Title:</label>
-                <input type="text" name="title" placeholder="Post Title" onChange={handlepostchanges}/>
+            <div className="field">
+                <input className="input" type="text" name="image_url" placeholder="Image URL" onChange={handlepostchanges} />
             </div>
-            <div>
-            <label>Image URL:</label>
-                <input type="text" name="image_url" placeholder="Image URL" onChange={handlepostchanges}/>
+            <div className="field">
+                <textarea className="textarea" type="text" name="content" placeholder="Article Content" onChange={handlepostchanges}></textarea>
             </div>
-            <div>
-            <label>Post Body:</label>
-                <input type="text" name="content" placeholder="Content" onChange={handlepostchanges}/>
+            <div className="field">
+                <div className="select">
+                    <select className="select" name="category_id"
+                        id="category_id"
+                        onChange={handlepostchanges}>
+                        <option>Category Select</option>
+                        {
+                            categories.map(each =>
+                                <option key={each.id} value={each.id}> {each.label}</option>)
+                        }
+                    </select>
+                </div>
             </div>
-            <div>
-                <label>Tags:</label>
+            <div className="field">
+                <div className="tag-options">
                     {
                         tags.map(each => {
-                            return <div key={each.id}>
-                                <label>{each.label}</label>
-                                <input type="checkbox" onChange={addedtags} id={each.id}/>
+                            return <div key={each.id} className="option">
+                                <input className="checkbox" type="checkbox" onChange={addedtags} id={each.id} />
+                                <label className="checkbox-label">{each.label}</label>
                             </div>
                         })
                     }
-
+                </div>
             </div>
-            <button onClick={submitposttoapi}>Submit Post</button>
+            <button className="publish-btn" onClick={submitposttoapi}>Publish</button>
         </div>
     </>)
 }
