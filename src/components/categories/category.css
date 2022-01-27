@@ -1,5 +1,69 @@
 .category_form{
     display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 30%;
     justify-content: right;
-    margin-top: -20%;
+    align-items: center;
+    margin-top: -26%;
+    margin-left: 50%;
+    border: 1px solid black;
+}
+
+.editForm{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 30%;
+    justify-content: right;
+    align-items: center;
+    /* margin-top: -26%;
+    margin-left: 50%; */
+    border: 1px solid black;
+}
+
+.categoryListItem {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    /* margin: 20px; */
+    margin-left: 10%;
+    border: 1px solid black;
+    width: 30%;
+
+}
+
+.viewHead {
+    display: flex;
+    margin-left: 22%;
+}
+.cat{
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.formHead {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 50%;
+}
+
+.formInput {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 50%;
+}
+
+.formSubmit {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 50%;
 }
