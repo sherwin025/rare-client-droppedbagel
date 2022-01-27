@@ -6,6 +6,8 @@ import { getSubscriptions, getUsersSubscriptions } from "../../apimanager/subscr
 import { GetPosts } from "../posts/PostManager"
 import "../posts/MyPost.css"
 import TrashIcon from '../comments/trash.svg'
+import { Settings, Delete } from '@material-ui/icons';
+
 
 
 export const Landing = () => {
@@ -59,8 +61,8 @@ export const Landing = () => {
                                 </div>
 
                                 <div className="rightfoot">
-                                    <button onClick={() => { history.push(`/editPost/${each.id}`) }}>edit</button>
-                                    <button onClick={() => deletepost(each.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>
+                                    <button onClick={() => { history.push(`/editPost/${each.id}`) }}><Settings /></button>
+                                    <button onClick={() => deletepost(each.id)}><Delete /></button>
                                 </div>
                             </div>
                         </div>
