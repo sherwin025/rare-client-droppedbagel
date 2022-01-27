@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getSinglePost } from "./PostManager"
+import { Message } from '@material-ui/icons';
 
 export const PostDetail = () => {
     const { postId } = useParams()
@@ -15,13 +16,18 @@ export const PostDetail = () => {
     ), [])
 
     return (<>
-        <div key={post.id} className="indpost">
-            <div> {post.title}</div>
-            <div>{post.user?.last_name} {post.user?.first_name}</div>
-            <div>{post.category?.label}</div>
-            <div>{post.content}</div>
-            <button onClick={()=> {history.push(`/comments/${post.id}`)}}>View Comments</button>
-            <button onClick={() => history.push(`/commentForm/${post.id}`)}>Add Comment</button>
+        <div key={post.id} className="postDetailContainer">
+            <div className="postDetailTop">
+                <div><button className="postDetailAddComments" onClick={() => history.push(`/commentForm/${post.id}`)}><Message /></button></div>
+                <div className="postDetailTitle"> {post.title}</div>
+                <div className="postDetailCategory">{post.category?.label}</div>
+            </div>
+            <div className="postDetailImage"><img src={post.image_url}></img></div>
+            <div className="postDetailBottom">
+                <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
+                <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
+            </div>
+            <div className="postDetailContent">{post.content}</div>
         </div>
 
     </>)
