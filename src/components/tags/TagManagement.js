@@ -19,7 +19,7 @@ export const TagManagement = () => {
 
 
   return (
-    <div className="container">
+    <div className="tagContainer">
     <TagList newTag={newTag}/>
     <TagForm saveNewLabel={saveNewLabel} />
     </div>
