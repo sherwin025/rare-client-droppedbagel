@@ -5,7 +5,7 @@
     width: 30%;
     justify-content: right;
     align-items: center;
-    margin-top: -26%;
+    /* margin-top: -26%; */
     margin-left: 50%;
     border: 1px solid black;
 }
