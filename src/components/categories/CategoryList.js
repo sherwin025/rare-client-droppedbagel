@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react"
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min"
 import { deleteCategory, getCategories, uploadCategory } from "../../apimanager/categoryFetches"
-import "./category.css"
 import TrashIcon from './trash.svg'
 import { Settings, Delete } from '@material-ui/icons';
 
@@ -61,7 +60,7 @@ export const CategoryList = () => {
                 </fieldset>
             })
         }  </div>
-            {/* <div className="tag-form"> */}
+            
 
         <div className="tag-form">
         <h2 className="tagHeader">Create Category</h2>
@@ -71,11 +70,10 @@ export const CategoryList = () => {
 
         </div>
         
-        {/* </div> */}
+      
         
         
         </>
     )
 }
 
-// className="cat"
