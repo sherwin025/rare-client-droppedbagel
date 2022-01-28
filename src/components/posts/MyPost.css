@@ -26,7 +26,19 @@
     justify-content: space-between;
 }
 
-.imageposturl {
+.postImage {
     display: flex;
     justify-content: center;
+}
+
+.invisible {
+    color: transparent;
+}
+
+.emojiOption {
+    text-align: center;
+}
+
+.postDetailImage {
+    align-self: center;
 }
