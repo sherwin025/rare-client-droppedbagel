@@ -50,6 +50,11 @@ export const GetPostReactions = () => {
         .then(res => res.json())
 }
 
+export const GetReactions = () => {
+    return fetch("http://localhost:8088/reactions")
+        .then(res => res.json())
+}
+
 export const New_reaction = (post_body) => {
     return fetch("http://localhost:8088/postreactions", {
         method: "POST",
