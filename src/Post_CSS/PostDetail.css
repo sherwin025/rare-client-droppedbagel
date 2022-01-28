@@ -50,3 +50,36 @@
     align-items: center;
     margin-top: 2%;
 }
+
+.postAddReaction {
+    display: flex;
+}
+
+.postReactions {
+    display: flex;
+    padding: 10%;
+    width: auto;
+    margin-left: 1vw;
+}
+
+.emoji {
+    margin-left: 10%;
+    font-size: 1.5em;
+}
+
+#reactions {
+    border: none;
+    font-size: 1.5em;
+}
+
+.reactionContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+}
+
+.reactionNumber {
+    font-size: .5em;
+}
