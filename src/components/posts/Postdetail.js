@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions } from "./PostManager"
-import { Message } from '@material-ui/icons';
+import { Message, AddCircleOutline } from '@material-ui/icons';
+import { ListItemIcon, MenuItem, Select } from "@material-ui/core";
+
+
 
 
 export const PostDetail = () => {
@@ -12,7 +15,6 @@ export const PostDetail = () => {
     const [reactions, setReaction] = useState(false)
     const history = useHistory()
     const [defaultreactions, setreactions] = useState([])
-
 
 
     useEffect((
@@ -95,25 +97,33 @@ export const PostDetail = () => {
             </div>
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
+                <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
+                <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
                 <div className="postAddReaction">
-                    <select onChange={(evt) => { addRemoveReaction(evt) }} name="reactions" id="reactions">
-                        <option value="0">react</option>
+                    <select className="emojiselect" defaultValue="0" onChange={(evt) => { addRemoveReaction(evt) }} name="reactions" id="reactions">
+                        <option className="emojiOption" value="0">+</option>
                         {defaultreactions.map(each => {
-                            return <option value={each.id}>{each.image_url} </option>
+                            return <option key={each.id} className="emojiOption" value={each.id}>{each.image_url} </option>
                         })}
                     </select>
+
                     <div className="postReactions">
                         {
                             defaultreactions.map(
                                 eachReaction => {
-                                    return countReactions(eachReaction.id).length >= 1 ? <div className="reactionContainer"><div className="emoji">{eachReaction.image_url}</div><div className="reactionNumber">{`${countReactions(eachReaction.id).length > 1 ? countReactions(eachReaction.id).length : ""}`}</div></div> : ""
+                                    return countReactions(eachReaction.id).length >= 1
+                                        ? <div key={eachReaction.id} className="reactionContainer">
+                                            <div className="emoji">{eachReaction.image_url}</div>
+                                            <div className={countReactions(eachReaction.id).length > 1 ? "reactionNumber" : "reactionNumber invisible"}>
+                                                {countReactions(eachReaction.id).length}
+                                            </div>
+                                        </div>
+                                        : ""
                                 }
                             )
                         }
                     </div>
                 </div>
-                <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
-                <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
             </div>
             <div className="postDetailContent">{post.content}</div>
         </div>

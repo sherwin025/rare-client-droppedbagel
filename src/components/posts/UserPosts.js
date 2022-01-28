@@ -54,7 +54,7 @@ export const UserPostList = () => {
                             <div>Publication Date: {new Date(each.publication_date).toLocaleDateString()}</div>
                         </div>
 
-                        <div className="imageposturl">IMG:{each.image_url}</div>
+                        <div className="postImage"><img src={each.image_url} /></div>
                         <div className="postfoot">
                             <div>
                             <div> Author: {each.user?.first_name} {each.user?.last_name}</div>
