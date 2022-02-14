@@ -1,4 +1,5 @@
 export const GetPosts = () => {
+
     return fetch("http://localhost:8000/posts", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
@@ -6,6 +7,7 @@ export const GetPosts = () => {
 }
 
 export const getSinglePost = (id) => {
+
     return fetch(`http://localhost:8000/posts/${id}`, {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
@@ -14,6 +16,7 @@ export const getSinglePost = (id) => {
 
 export const deletePost = (id) => {
     return fetch(`http://localhost:8000/posts/${id}`, {
+
         method: "DELETE",
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
 
@@ -55,6 +58,7 @@ export const New_entrytags = (post_body) => {
 }
 
 export const GetPostReactions = () => {
+
     return fetch("http://localhost:8000/postreactions", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
@@ -62,6 +66,7 @@ export const GetPostReactions = () => {
 }
 
 export const GetReactions = () => {
+
     return fetch("http://localhost:8000/reactions", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
