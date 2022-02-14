@@ -1,34 +1,42 @@
 export const GetPosts = () => {
-    return fetch("http://localhost:8088/posts")
+    return fetch("http://localhost:8000/posts", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
         .then(res => res.json())
 }
 
 export const getSinglePost = (id) => {
-    return fetch(`http://localhost:8088/posts/${id}`)
+    return fetch(`http://localhost:8000/posts/${id}`, {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
         .then(res => res.json())
 }
 
 export const deletePost = (id) => {
-    return fetch(`http://localhost:8088/posts/${id}`, {
-        method: "DELETE"
+    return fetch(`http://localhost:8000/posts/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+
     })
 }
 
 export const updatePost = (id, newPost) => {
-    return fetch(`http://localhost:8088/posts/${id}`, {
+    return fetch(`http://localhost:8000/posts/${id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(newPost)
     })
 }
 
 export const New_post = (post_body) => {
-    return fetch("http://localhost:8088/posts", {
+    return fetch("http://localhost:8000/posts", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(post_body)
     })
@@ -36,37 +44,44 @@ export const New_post = (post_body) => {
 }
 
 export const New_entrytags = (post_body) => {
-    return fetch("http://localhost:8088/posttags", {
+    return fetch("http://localhost:8000/posttags", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(post_body)
     })
 }
 
 export const GetPostReactions = () => {
-    return fetch("http://localhost:8088/postreactions")
+    return fetch("http://localhost:8000/postreactions", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
         .then(res => res.json())
 }
 
 export const GetReactions = () => {
-    return fetch("http://localhost:8088/reactions")
+    return fetch("http://localhost:8000/reactions", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
         .then(res => res.json())
 }
 
 export const New_reaction = (post_body) => {
-    return fetch("http://localhost:8088/postreactions", {
+    return fetch("http://localhost:8000/postreactions", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(post_body)
     })
 }
 
 export const deletePostReaction = (id) => {
-    return fetch(`http://localhost:8088/postreactions/${id}`, {
-        method: "DELETE"
+    return fetch(`http://localhost:8000/postreactions/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
 }

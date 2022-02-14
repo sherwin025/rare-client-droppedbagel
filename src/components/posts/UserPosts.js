@@ -20,9 +20,9 @@ export const UserPostList = () => {
 
     const getuserposts = () => {
         let userposts = []
-        const theuser = parseInt(localStorage.getItem("token"))
+        const theuser = parseInt(localStorage.getItem("userid"))
         for (const thepost of posts) {
-            if (parseInt(thepost.user_id) === theuser) {
+            if (parseInt(thepost.user_id.id) === theuser) {
                 userposts.push(thepost)
             }
         }
@@ -36,7 +36,7 @@ export const UserPostList = () => {
                 .then(GetPosts)
                 .then(res => setposts(res))
         } else {
-
+            
         }
     }
 
