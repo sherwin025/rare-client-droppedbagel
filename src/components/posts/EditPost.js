@@ -109,6 +109,7 @@ export const EditPost = () => {
             </div>
             <div className="field">
                 <button className="saveEdit-btn" onClick={saveUpdate}>Save</button>
+                <button className="saveEdit-btn" onClick={()=> {history.push("/my-posts")}}>Cancel</button>
             </div>
 
         </div >

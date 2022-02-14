@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom"
 import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions } from "./PostManager"
 import { Message, AddCircleOutline } from '@material-ui/icons';
 import { ListItemIcon, MenuItem, Select } from "@material-ui/core";
+import TrashIcon from '../comments/trash.svg'
 
 
 
@@ -41,6 +42,17 @@ export const PostDetail = () => {
             let array = res.filter(each => each.post_id === parseInt(postId))
             setPostReaction(array)
         })
+    }
+
+    const deletepost = (id) => {
+        let result = confirm("Are you sure you want to delete this post? ")
+        if (result) {
+            deletePost(id)
+                .then(GetPosts)
+                .then(res => setposts(res))
+        } else {
+            
+        }
     }
 
 
@@ -95,6 +107,7 @@ export const PostDetail = () => {
                 <div className="postDetailTitle"> {post.title}</div>
                 <div className="postDetailCategory">{post.category?.label}</div>
             </div>
+            <div className="postdetailbottom"> publication date: {post.publication_date}</div>
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
                 <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
@@ -127,6 +140,6 @@ export const PostDetail = () => {
             </div>
             <div className="postDetailContent">{post.content}</div>
         </div>
-
+        <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>              
     </>)
 }

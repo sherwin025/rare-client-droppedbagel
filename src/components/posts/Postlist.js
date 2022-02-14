@@ -21,12 +21,12 @@ export const PostList = () => {
         }
     ), [])
 
-    useEffect(() => {
-        getCategories()
-            .then(setCategories)
+    // useEffect(() => {
+    //     getCategories()
+    //         .then(setCategories)
 
-    },
-        [])
+    // },
+        // [])
 
     useEffect(
         () => {
@@ -35,15 +35,15 @@ export const PostList = () => {
         [posts]
     )
 
-    useEffect(
-        () => {
-            getAllUsers()
-                .then((data) => {
-                    setUsers(data)
-                })
-        },
-        []
-    )
+    // useEffect(
+    //     () => {
+    //         getAllUsers()
+    //             .then((data) => {
+    //                 setUsers(data)
+    //             })
+    //     },
+    //     []
+    // )
 
     useEffect(
         () => {
@@ -56,11 +56,11 @@ export const PostList = () => {
         [search]
     )
 
-    useEffect(
-        () => {
-            getAllTags()
-                .then(setTags)
-        }, [])
+    // useEffect(
+    //     () => {
+    //         getAllTags()
+    //             .then(setTags)
+    //     }, [])
 
 
 
@@ -144,18 +144,14 @@ export const PostList = () => {
             <div className="postInfo"><b>Title</b></div>
             <div className="postInfo"><b>Author</b></div>
             <div className="postInfo"><b>Category</b></div>
-            <div className="postInfo"><b>Content</b></div>
-            <div className="postInfo"><b>Tags</b></div>
         </div>
 
         {
             filtered.map(each => {
                 return <div key={each.id} className="postObj">
                     <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                    <div className="postInfo">{each.user.last_name} {each.user.first_name}</div>
-                    <div className="postInfo">{each.category.label}</div>
-                    <div className="postInfo">{each.content}</div>
-                    <div className="postInfo">{each.tags.map((tag) => { return tag })}</div>
+                    <div className="postInfo"> {each.user_id.user.first_name} {each.user_id.user.last_name}</div>
+                    {/* <div className="postInfo">{each.category.label}</div> */}
                 </div>
             })
         }

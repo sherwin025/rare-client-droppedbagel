@@ -34,7 +34,7 @@ export const Register = ({ setToken }) => {
       registerUser(newUser)
         .then(res => {
           if ("valid" in res && res.valid) {
-            setToken(res.token)
+            setToken(res.token, res.userid)
             history.push("/")
           }
         })

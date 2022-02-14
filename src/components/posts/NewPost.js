@@ -25,11 +25,9 @@ export const NewPost = () => {
     }
 
     const submitposttoapi = () => {
-        const newdate = Date.now()
         const copy = newpost
-        copy["publication_date"] = newdate
         copy["approved"] = 1
-        copy["user_id"] = parseInt(localStorage.getItem("token"))
+        copy["user_id"] = parseInt(localStorage.getItem("userid"))
 
         New_post(copy)
             .then((res) => {
