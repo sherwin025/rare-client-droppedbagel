@@ -1,7 +1,9 @@
 
 
 export const getCategories = () => {
-    return fetch(`http://localhost:8000/categories`)
+    return fetch(`http://localhost:8000/categories`, {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
     .then(res => res.json())
 }
 
@@ -9,7 +11,8 @@ export const uploadCategory = (cat) => {
     const fetchOptions = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(cat)
     }
@@ -19,5 +22,8 @@ export const uploadCategory = (cat) => {
 }
 
 export const deleteCategory = (id) => {
-    return fetch(`http://localhost:8000/categories/${id}`, {method: "DELETE"})
+    return fetch(`http://localhost:8000/categories/${id}`, {
+        method: "DELETE",
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
 }

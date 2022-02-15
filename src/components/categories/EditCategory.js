@@ -15,14 +15,16 @@ export const EditCategory = () => {
     const handleEdit = () => {
 
         const editedCat = {
-            label: newLabel.current.value
+            label: newLabel.current.value,
+            id: parseInt(catId)
         }
 
-        fetch(`http://localhost:8088/categories/${catId}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
+        fetch(`http://localhost:8000/categories/${catId}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            },
         body: JSON.stringify(editedCat)}).then(history.push('/categories'))
 
 
@@ -37,6 +39,7 @@ export const EditCategory = () => {
         <h2 className="formHead">Edit Category</h2>
         <input className="formInput" type="text" placeholder="Edit label here" ref={newLabel} />
         <button className="formSubmit" type="submit_edit" onClick={() => {handleEdit()}}>Save Changes</button>
+        <button className="formSubmit" onClick={()=> {history.push("/categories")}}>Cancel</button>
         </fieldset>
 
         

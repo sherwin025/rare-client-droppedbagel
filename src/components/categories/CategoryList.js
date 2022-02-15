@@ -15,14 +15,21 @@ export const CategoryList = () => {
 
     useEffect(() => {
         getCategories()
-        .then(setCategories)
+            .then(setCategories)
 
     },
-    [])
+        [])
 
     const syncCategories = () => {
         getCategories()
-        .then(setCategories)
+            .then(setCategories)
+    }
+
+    const deletetheCategory = (id) => {
+        let result = confirm("Are you sure you want to delete this category? ")
+        if (result) {
+            return deleteCategory(id)
+        }
     }
 
     const handlePost = (evt) => {
@@ -33,9 +40,9 @@ export const CategoryList = () => {
         }
 
         uploadCategory(newCatObj)
-        .then(syncCategories)
-        .then(() => {label.current.value = null})
-    
+            .then(syncCategories)
+            .then(() => { label.current.value = null })
+
     }
 
 
@@ -43,36 +50,36 @@ export const CategoryList = () => {
         <>
             <div className="tagContainer">
 
-        <div className="tagList">
-        <h1 className="tagListHeader">Categories</h1>
-        {
-            categories.map((cat) => {
-                return <fieldset>
-                    <div className="tagItem">
-                        <button onClick={() => {
-                            history.push(`/categories/${cat.id}`)
-                            
-                        }}><Settings /></button><button onClick={() => {
-                            deleteCategory(cat.id).then(() => {syncCategories()})
-                        }}><Delete /></button>
-                        <h4 className="tag__label" >{cat.label}</h4>
-                    </div>
-                </fieldset>
-            })
-        }  </div>
-            
+                <div className="tagList">
+                    <h1 className="tagListHeader">Categories</h1>
+                    {
+                        categories.map((cat) => {
+                            return <fieldset>
+                                <div className="tagItem">
+                                    <button onClick={() => {
+                                        history.push(`/categories/${cat.id}`)
 
-        <div className="tag-form">
-        <h2 className="tagHeader">Create Category</h2>
-        <input id="userLabel"  type="text" placeholder="Enter label here" ref={label}></input>
-        <button className="tagButton" type="submit_category" onClick={() => {handlePost()}}>Create Category</button>
-        </div>
+                                    }}><Settings /></button><button onClick={() => {
+                                        deletetheCategory(cat.id).then(() => { syncCategories() })
+                                    }}><Delete /></button>
+                                    <h4 className="tag__label" >{cat.label}</h4>
+                                </div>
+                            </fieldset>
+                        })
+                    }  </div>
 
-        </div>
-        
-      
-        
-        
+
+                <div className="tag-form">
+                    <h2 className="tagHeader">Create Category</h2>
+                    <input id="userLabel" type="text" placeholder="Enter label here" ref={label}></input>
+                    <button className="tagButton" type="submit_category" onClick={() => { handlePost() }}>Create Category</button>
+                </div>
+
+            </div>
+
+
+
+
         </>
     )
 }
