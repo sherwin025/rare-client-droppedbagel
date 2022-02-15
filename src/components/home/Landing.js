@@ -20,9 +20,9 @@ export const Landing = () => {
 
     }, [])
 
-    const usersSubs = subs.map((sub) => {
-        return sub.follower_id
-    })
+    // const usersSubs = subs.map((sub) => {
+    //     return sub.follower_id
+    // })
 
 
     const filteredPosts = () => posts.filter((post) => {
