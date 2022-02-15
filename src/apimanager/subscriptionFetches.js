@@ -2,7 +2,8 @@ export const uploadSubscription = (sub) => {
     const fetchOptions = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(sub)
     }
@@ -12,15 +13,15 @@ export const uploadSubscription = (sub) => {
 }
 
 export const getSubscriptions = () => {
-    return fetch(`http://localhost:8000/subscriptions`)
+    return fetch(`http://localhost:8000/subscriptions`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
     .then(res => res.json())
 }
 
 export const getUsersSubscriptions = (id) => {
-    return fetch(`http://localhost:8000/subscriptions?user_id=${id}`)
+    return fetch(`http://localhost:8000/subscriptions?author=${id}`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
     .then(res => res.json())
 }
 
 export const deleteSubscription = (id) => {
-    return fetch(`http://localhost:8000/subscriptions/${id}`, {method: "DELETE"})
+    return fetch(`http://localhost:8000/subscriptions/${id}`, {method: "DELETE", headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
 }
