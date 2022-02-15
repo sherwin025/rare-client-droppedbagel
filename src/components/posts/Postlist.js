@@ -21,12 +21,12 @@ export const PostList = () => {
         }
     ), [])
 
-    // useEffect(() => {
-    //     getCategories()
-    //         .then(setCategories)
+    useEffect(() => {
+        getCategories()
+            .then(setCategories)
 
-    // },
-        // [])
+    },
+        [])
 
     useEffect(
         () => {
@@ -35,75 +35,66 @@ export const PostList = () => {
         [posts]
     )
 
-    // useEffect(
-    //     () => {
-    //         getAllUsers()
-    //             .then((data) => {
-    //                 setUsers(data)
-    //             })
-    //     },
-    //     []
-    // )
+    useEffect(
+        () => {
+            getAllUsers()
+                .then((data) => {
+                    setUsers(data)
+                })
+        },
+        []
+    )
 
     useEffect(
         () => {
-            search === "" ? GetPosts().then((data) => { setposts(data) }) :
-                setFiltered(posts.filter((post) => {
-                    return post.title.toLowerCase().includes(search.toLowerCase())
-                }))
-
-        },
-        [search]
-    )
-
-    // useEffect(
-    //     () => {
-    //         getAllTags()
-    //             .then(setTags)
-    //     }, [])
+            getAllTags()
+                .then(setTags)
+        }, [])
 
 
 
     // FUNCTIONS ---------------------------------------------------------------------------------------------------------------
-    const filterCategory = (categoryType) => {
-        let postsCopy = posts.map(post => ({ ...post }))
-        const filteredPosts = postsCopy.filter(each => {
-            return each.category.label == categoryType
+    const filterCategory = (categoryid) => {
+        return fetch(`http://localhost:8000/posts?catfilter=${categoryid}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
         })
-        setFiltered(filteredPosts)
-
-        if (categoryType == '') {
-            setFiltered(posts)
-        }
+            .then(res => res.json())
+            .then(res => setFiltered(res))
     }
 
-    const filterUser = (userType) => {
-        let postsCopy = posts.map(post => ({ ...post }))
-        const filteredPosts = postsCopy.filter(each => {
-            return each.user.username == userType
+    const filterUser = (userid) => {
+        return fetch(`http://localhost:8000/posts?userfilter=${userid}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
         })
-        setFiltered(filteredPosts)
-
-        if (userType == '') {
-            setFiltered(posts)
-        }
+            .then(res => res.json())
+            .then(res => setFiltered(res))
     }
 
 
-    const filterTag = (tagType) => {
-        let postsCopy = posts.map(post => ({ ...post }))
-        const filteredPosts = postsCopy.filter(each => {
-            return each.tags.find((tag) => {
-                return tag === tagType
+    const filterTag = (tagid) => {
+        return fetch(`http://localhost:8000/posts?tagfilter=${tagid}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => res.json())
+            .then(res => setFiltered(res))
+    }
+
+    const searchFunction = (event) => {
+        if (event.key === "Enter") {
+            return fetch(`http://localhost:8000/posts?search=${event.target.value}`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
             })
-        })
-        setFiltered(filteredPosts)
-    }
-
-    const searchFunction = () => {
-        const foundTitle = posts.find((post) => {
-            return post.title === search
-        })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        }
     }
 
 
@@ -113,30 +104,28 @@ export const PostList = () => {
             <select className="filterBox" onChange={(evt) => { filterCategory(evt.target.value) }} name="filter" id="filter">
                 <option value="">category</option>
                 {categories.map(category => {
-                    return <option value={category.label}>{category.label}</option>
+                    return <option value={category.id}>{category.label}</option>
                 })}
             </select>
 
             <select className="filterBox" onChange={(evt) => { filterUser(evt.target.value) }} name="filter" id="filter">
                 <option value="">user</option>
                 {users.map(user => {
-                    return <option value={user.username}>{user.username}</option>
+                    return <option value={user.id}>{user.username}</option>
                 })}
             </select>
 
             <select className="filterBox" onChange={(evt) => { filterTag(evt.target.value) }} name="filter" id="filter">
                 <option value="">tag</option>
                 {tags.map(tag => {
-                    return <option value={tag.label}>{tag.label}</option>
+                    return <option value={tag.id}>{tag.label}</option>
                 })}
             </select>
 
             <div className="searchContainer">
-                <input className="searchBar" onChange={(e) => {
-                    const searchItem = e.target.value
-                    setSearch(searchItem);
-                }} type="text" placeholder="search..."></input>
-                <button className="submit" type="submit" onClick={() => { searchFunction() }}>go</button>
+                <input className="searchBar"
+                    onKeyPress={(e) => searchFunction(e)}
+                    placeholder="search..."></input>
             </div>
         </div>
 
