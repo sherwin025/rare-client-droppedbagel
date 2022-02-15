@@ -28,23 +28,24 @@ export const UserPage = () => {
             []
         )
 
-        // useEffect(() => {
-        //     getUsersSubscriptions(+localStorage.getItem('token')).then(setUsersSubs)
-        // },[])
+        useEffect(() => {
+            getUsersSubscriptions(+localStorage.getItem('userid')).then(setUsersSubs)
+        },[])
 
-        // useEffect(() => {
-        //     getSubscriptions().then(setAllSubs)
-        // },[])
+        useEffect(() => {
+            getSubscriptions().then(setAllSubs)
+        },[])
 
         const areTheySubbed = usersSubs.filter(user => {
-            if (+user.follower_id === +userId) {
+            if (+user.follower.id === +userId) {
                 return true
             }
             return false
         })
+        console.log(areTheySubbed)
 
         const subCount = allSubs.filter((sub) => {
-            if (+sub.follower_id === +userId) {
+            if (+sub.follower.id === +userId) {
                 return true
             }
             return false
@@ -54,8 +55,8 @@ export const UserPage = () => {
             // evt.preventDefault()
             
             const newSubObj = {
-                follower_id: +user.id,
-                author_id: +localStorage.getItem('token')
+                follower: +user.id,
+                author: +localStorage.getItem('userid')
             }
             
             uploadSubscription(newSubObj)
@@ -63,6 +64,13 @@ export const UserPage = () => {
             
             
         }
+
+        const subToDelete = usersSubs.find((sub) => {
+            if (sub.follower.id === +userId) {
+                return true
+            }
+            return false
+        })
         
         
         return (
@@ -81,7 +89,7 @@ export const UserPage = () => {
                 { 
                         !! areTheySubbed.length > 0
                         ? <button onClick={() => {
-                            deleteSubscription(usersSubs[0]?.id).then(() => {history.push('/')})
+                            deleteSubscription(subToDelete.id).then(() => {history.push('/')})
                         }}>Unsubscribe</button>
                         : <button onClick={handleSub}>Subscribe</button>
                 }
