@@ -16,7 +16,7 @@ export const Landing = () => {
 
     useEffect(() => {
         GetPosts().then(setPosts)
-        getUsersSubscriptions(+localStorage.getItem('token')).then(setSubs)
+        getUsersSubscriptions(+localStorage.getItem('userid')).then(setSubs)
 
     }, [])
 
