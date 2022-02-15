@@ -28,13 +28,13 @@ export const UserPage = () => {
             []
         )
 
-        useEffect(() => {
-            getUsersSubscriptions(+localStorage.getItem('token')).then(setUsersSubs)
-        },[])
+        // useEffect(() => {
+        //     getUsersSubscriptions(+localStorage.getItem('token')).then(setUsersSubs)
+        // },[])
 
-        useEffect(() => {
-            getSubscriptions().then(setAllSubs)
-        },[])
+        // useEffect(() => {
+        //     getSubscriptions().then(setAllSubs)
+        // },[])
 
         const areTheySubbed = usersSubs.filter(user => {
             if (+user.follower_id === +userId) {
@@ -69,9 +69,10 @@ export const UserPage = () => {
             <>
                
                 <div className="userBlock"><div className="user">
-                    <p>Full Name: {user.first_name} {user.last_name} </p>
+                    <p>Full Name: {user.user?.first_name} {user.user?.last_name} </p>
                     <p>Profile Image: {user.profile_image_url}</p>
-                    <p>Username: {user.username}</p>
+                    <p>Username: {user.user?.username}</p>
+                    <p>Email: {user.user?.username}</p>
                     <p>Created: {user.created_on}</p>
                     <p>Bio: {user.bio}</p>
                 </div></div>

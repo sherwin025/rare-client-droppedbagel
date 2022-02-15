@@ -20,5 +20,6 @@ export const registerUser = (newUser) => {
       "Accept": "application/json"
     },
     body: JSON.stringify(newUser)
+    
   }).then(res => res.json())
 }
