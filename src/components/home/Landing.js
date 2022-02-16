@@ -13,6 +13,7 @@ import { Settings, Delete } from '@material-ui/icons';
 export const Landing = () => {
     const [subs, setSubs] = useState([])
     const [posts, setPosts] = useState([])
+    const history = useHistory()
 
     useEffect(() => {
         GetPosts().then(setPosts)
@@ -42,7 +43,7 @@ export const Landing = () => {
 
     return (<>
         <div className="newpostbutton">
-            <button>New Post</button>
+            <button onClick={()=> {history.push("/new-post")}}>New Post</button>
         </div>
         <div className="mypostlist">
             {

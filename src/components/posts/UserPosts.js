@@ -22,7 +22,7 @@ export const UserPostList = () => {
         let userposts = []
         const theuser = parseInt(localStorage.getItem("userid"))
         for (const thepost of posts) {
-            if (parseInt(thepost.user_id.id) === theuser) {
+            if (parseInt(thepost.user?.id) === theuser) {
                 userposts.push(thepost)
             }
         }

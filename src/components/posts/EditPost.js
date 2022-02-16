@@ -64,6 +64,7 @@ export const EditPost = () => {
 
     const saveUpdate = () => {
         const updatedPost = Object.assign({}, post)
+        updatedPost.user = updatedPost.user?.id
         updatedPost.tags = postTags
         updatePost(postId, updatedPost)
             .then(() => history.push(`/posts/${postId}`))
@@ -83,7 +84,7 @@ export const EditPost = () => {
             </div>
             <div className="field">
                 <div className="select">
-                    <select className="select" name="category_id" id="category_id" value={post.category_id} onChange={handleControlledInput}>
+                    <select className="select" name="category" id="category" value={post.category?.id} onChange={handleControlledInput}>
                         {
                             categories.map((category) => {
                                 return <option key={category.id} value={category.id}>{category.label}</option>
