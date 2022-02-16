@@ -15,6 +15,9 @@ export const Users = () => {
     const alertNewState = () => setNewState(!newState)
     const [warningDiag, setWarningDiag] = useState(false)
     const toggleWarningDiag = () => setWarningDiag(!warningDiag)
+    const [confirmDiag, setConfirmDiag] = useState(false)
+    const toggleConfirm = () => setConfirmDiag(!confirmDiag)
+    const [user, setUser] = useState({})
 
     // Use Effects
     //-------------------------------------------------------------------------------------------------------------------
@@ -36,7 +39,8 @@ export const Users = () => {
             if (user.id === userId) {
                 toggleWarningDiag()
             } else {
-                deactivateUser(user.id).then(alertNewState)
+                setUser(user)
+                toggleConfirm()
             }
         }
         else {
@@ -52,9 +56,9 @@ export const Users = () => {
                     <h1 className="userListHead">Active Users</h1>
                     {activeUsers.map((user) => {
                         return <div key={user.id} className="user">
-                            <p>UserName: <Link to={`/users/${user.id}`}>{user.user.username}</Link></p>
+                            <p>Display Name: <Link to={`/users/${user.id}`}>{user.user.username}</Link></p>
                             <p>Full Name: {user.user.first_name} {user.user.last_name} </p>
-                            <p>Email: {user.user.email}</p>
+                            <p>User Type: {user.user.is_staff ? 'Admin' : 'Author'}</p>
                             <button onClick={() => changeActiveState(user)}>Deactivate</button>
                         </div>
                     })}
@@ -64,9 +68,9 @@ export const Users = () => {
                     <h1 className="userListHead">Deactivated Users</h1>
                     {inactiveUsers.map((user) => {
                         return <div key={user.id} className="user">
-                            <p>UserName: <Link to={`/users/${user.id}`}>{user.user.username}</Link></p>
+                            <p>Display Name: <Link to={`/users/${user.id}`}>{user.user.username}</Link></p>
                             <p>Full Name: {user.user.first_name} {user.user.last_name} </p>
-                            <p>Email: {user.user.email}</p>
+                            <p>User Type: {user.user.is_staff ? 'Admin' : 'Author'}</p>
                             <button onClick={() => changeActiveState(user)}>Reactivate</button>
                         </div>
                     })}
@@ -76,24 +80,24 @@ export const Users = () => {
             </div>
 
             <Dialog open={warningDiag} onClose={toggleWarningDiag}>
-                    <DialogTitle className="newReaction-title">Don't Deactivate Yourself!</DialogTitle>
-                    <DialogContent className="newReaction-content">
-                        {/* <Input className="newReaction-input" id="newReaction-label" placeholder="Label" onChange={(e) => {
-                            const copy = { ...newReactionObject }
-                            copy.label = e.target.value
-                            setNewReactionObject(copy)
-                        }}></Input>
-                        <Input className="newReaction-input" id="newReaction-imageUrl" placeholder="Emoji" onChange={(e) => {
-                            const copy = { ...newReactionObject }
-                            copy.image_url = e.target.value
-                            setNewReactionObject(copy)
-                        }}></Input> */}
-                    </DialogContent>
-                    <div className="newReaction-btns">
-                        <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleWarningDiag}>Ok</Button></div>
-                    </div>
+                <DialogTitle className="newReaction-title">Don't Deactivate Yourself!</DialogTitle>
+                <div className="newReaction-btns">
+                    <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleWarningDiag}>Ok</Button></div>
+                </div>
+            </Dialog>
 
-                </Dialog>
+            <Dialog open={confirmDiag} onClose={toggleConfirm}>
+                <DialogTitle className="newReaction-title">Are You Sure You Want to Deactivate This User?</DialogTitle>
+                <div className="newReaction-btns">
+                    <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" 
+                    onClick={() => {
+                        deactivateUser(user.id).then(alertNewState)
+                        toggleConfirm()
+                    }}>Deactivate</Button></div>
+                    <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleConfirm}>Cancel</Button></div>
+
+                </div>
+            </Dialog>
 
         </>
     )
