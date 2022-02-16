@@ -42,3 +42,24 @@
 .postDetailImage {
     align-self: center;
 }
+
+.newReaction-content {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.newReaction-input {
+    margin: 1rem 0;
+}
+
+.newReaction-btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+}
+
+.reaction-btn {
+    margin: 1rem;
+}
