@@ -27,7 +27,7 @@ export const Landing = () => {
 
     const filteredPosts = () => posts.filter((post) => {
         for (const userSub of usersSubs) {
-            if (userSub === post.user_id.id) {
+            if (userSub === post.user.id) {
                 return true
             }
             else {
