@@ -21,14 +21,14 @@ export const Landing = () => {
 
     }, [])
 
-    // const usersSubs = subs.map((sub) => {
-    //     return sub.follower_id
-    // })
+    const usersSubs = subs.map((sub) => {
+        return sub.follower.id
+    })
 
 
     const filteredPosts = () => posts.filter((post) => {
         for (const userSub of usersSubs) {
-            if (userSub === post.user_id) {
+            if (userSub === post.user.id) {
                 return true
             }
             else {
