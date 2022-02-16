@@ -1,27 +1,39 @@
 export const getAllComments = () => {
-    return fetch("http://localhost:8000/comments")
-    .then(res => res.json())
+    return fetch("http://localhost:8000/comments", {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(res => res.json())
 }
 
 export const addComment = (new_comment) => {
     return fetch("http://localhost:8000/comments", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
         },
         body: JSON.stringify(new_comment)
     })
-    .then(getAllComments)
+        .then(getAllComments)
 }
 
 export const deleteComment = (commentId) => {
     return fetch(`http://localhost:8000/comments/${commentId}`, {
-        method: "DELETE"
-      })
-      .then(getAllComments)
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(getAllComments)
 }
 
 export const getCommentsByPost = (postId) => {
-    return fetch(`http://localhost:8000/comments?post_id=${postId}`)
-    .then(res => res.json())   
+    return fetch(`http://localhost:8000/comments?post=${postId}`, {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(res => res.json())
 }
