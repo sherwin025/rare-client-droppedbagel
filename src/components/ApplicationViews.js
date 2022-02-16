@@ -13,12 +13,16 @@ import { CommentList } from "./comments/CommentList"
 import { CommentForm } from "./comments/CommentForm"
 import { EditPost } from "./posts/EditPost"
 import { Landing } from "./home/Landing"
+import { AdminPostList } from "./posts/adminPostList" 
 
 export const ApplicationViews = () => {
   return (<>
 
     <Route exact path="/posts" >
       <PostList/>
+    </Route>
+    <Route exact path="/adminposts" >
+      <AdminPostList/>
     </Route>
     <Route exact path="/posts/:postId(\d+)" >
       <PostDetail/>

@@ -6,6 +6,14 @@ export const GetPosts = () => {
         .then(res => res.json())
 }
 
+export const GetAdminPosts = () => {
+
+    return fetch("http://localhost:8000/posts?admin=true", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
+        .then(res => res.json())
+}
+
 export const getSinglePost = (id) => {
 
     return fetch(`http://localhost:8000/posts/${id}`, {
