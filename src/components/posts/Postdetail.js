@@ -15,7 +15,7 @@ export const PostDetail = () => {
     const { postId } = useParams()
     const [post, setPost] = useState({})
     const history = useHistory()
-    const [tagstate, settagstate] = useState(0)
+    const [tagstate, settagstate] = useState(false)
     const [tags, setTags] = useState([])
     const [postTags, setPostTags] = useState([])
     const [reactions, setReactions] = useState([])
@@ -28,11 +28,11 @@ export const PostDetail = () => {
         label: "",
         image_url: ""
     })
-    
+
     useEffect((
         () => {
-            getthepost()
-            GetReactions().then(res => setreactions(res))
+            thesinglepost()
+            GetReactions().then(res => setReactions(res))
             getAllTags().then(setTags)
         }
     ), [])
@@ -57,22 +57,8 @@ export const PostDetail = () => {
         }
     }, [post])
 
-    const getthepost = () => {
-        getSinglePost(parseInt(postId)).then(res => setpost(res))
-    }
-
-    const filteredreactions = () => {
-        return GetPostReactions().then(res => {
-            let array = res.filter(each => each.post_id === parseInt(postId))
-            setPostReaction(array)
-        })
-    }
-
-
-    const thetagstate = () => {
-        tagstate ?
-            settagstate(0)
-            : settagstate(1)
+    const thesinglepost = () => {
+        getSinglePost(parseInt(postId)).then(res => setPost(res))
     }
 
     const deletepost = (id) => {
@@ -81,9 +67,9 @@ export const PostDetail = () => {
             deletePost(id)
                 .then(GetPosts)
                 .then(res => setposts(res))
-        } 
+        }
     }
-    
+
     const checkTag = (event) => {
         let tagId = parseInt(event.target.value)
         let copy = [...postTags]
@@ -153,8 +139,8 @@ export const PostDetail = () => {
         updatedPost.tags = postTags
         updatedPost.category = post.category?.id
         updatePost(postId, updatedPost)
-            .then(getthepost)
-            .then(settagstate(0))
+            .then(thesinglepost)
+            .then(settagstate(!tagstate))
     }
 
     return (<>
@@ -167,56 +153,56 @@ export const PostDetail = () => {
             <div className="postdetailbottom"> publication date: {post.publication_date}</div>
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
-               <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
-                    <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
+                <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
+                <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
 
-                    <div><button onClick={toggleNewDiag}>New Reaction</button></div>
-                    <Dialog open={newDiag} onClose={toggleNewDiag}>
-                        <DialogTitle className="newReaction-title">Create New Reaction Option</DialogTitle>
-                        <DialogContent className="newReaction-content">
-                            <Input className="newReaction-input" id="newReaction-label" placeholder="Label" onChange={(e) => {
-                                const copy = { ...newReactionObject }
-                                copy.label = e.target.value
-                                setNewReactionObject(copy)
-                            }}></Input>
-                            <Input className="newReaction-input" id="newReaction-imageUrl" placeholder="Emoji" onChange={(e) => {
-                                const copy = { ...newReactionObject }
-                                copy.image_url = e.target.value
-                                setNewReactionObject(copy)
-                            }}></Input>
-                        </DialogContent>
-                        <div className="newReaction-btns">
-                            <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={createNewReactionObject}>Save</Button></div>
-                            <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleNewDiag}>Cancel</Button></div>
-                        </div>
+                <div><button onClick={toggleNewDiag}>New Reaction</button></div>
+                <Dialog open={newDiag} onClose={toggleNewDiag}>
+                    <DialogTitle className="newReaction-title">Create New Reaction Option</DialogTitle>
+                    <DialogContent className="newReaction-content">
+                        <Input className="newReaction-input" id="newReaction-label" placeholder="Label" onChange={(e) => {
+                            const copy = { ...newReactionObject }
+                            copy.label = e.target.value
+                            setNewReactionObject(copy)
+                        }}></Input>
+                        <Input className="newReaction-input" id="newReaction-imageUrl" placeholder="Emoji" onChange={(e) => {
+                            const copy = { ...newReactionObject }
+                            copy.image_url = e.target.value
+                            setNewReactionObject(copy)
+                        }}></Input>
+                    </DialogContent>
+                    <div className="newReaction-btns">
+                        <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={createNewReactionObject}>Save</Button></div>
+                        <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleNewDiag}>Cancel</Button></div>
+                    </div>
 
-                    </Dialog>
+                </Dialog>
 
-                    <div className="postAddReaction">
-                        <select className="emojiselect" defaultValue="0" onChange={handleReaction} name="reactions" id="reactions">
-                            <option key={"0"} className="emojiOption" value="0">+</option>
-                            {reactions.map(each => {
-                                return <option key={each.id} className="emojiOption" value={each.id}>{each.image_url} </option>
-                            })}
-                        </select>
+                <div className="postAddReaction">
+                    <select className="emojiselect" defaultValue="0" onChange={handleReaction} name="reactions" id="reactions">
+                        <option key={"0"} className="emojiOption" value="0">+</option>
+                        {reactions.map(each => {
+                            return <option key={each.id} className="emojiOption" value={each.id}>{each.image_url} </option>
+                        })}
+                    </select>
 
-                        <div className="postReactions">
-                            {
-                                reactionCounts.map((reactionCount) => {
-                                    return <div key={reactionCount.id}>
-                                        <div>{reactionCount.reaction.image_url}</div>
-                                        <div className={reactionCount.count > 1 ? "reactionNumber" : "reactionNumber invisible"}>{reactionCount.count}</div>
-                                    </div>
-                                })
-                            }
-                        </div>
+                    <div className="postReactions">
+                        {
+                            reactionCounts.map((reactionCount) => {
+                                return <div key={reactionCount.id}>
+                                    <div>{reactionCount.reaction.image_url}</div>
+                                    <div className={reactionCount.count > 1 ? "reactionNumber" : "reactionNumber invisible"}>{reactionCount.count}</div>
+                                </div>
+                            })
+                        }
                     </div>
                 </div>
-                <div className="postDetailContent">{post.content}</div>
+            </div>
+            <div className="postDetailContent">{post.content}</div>
             {
                 parseInt(localStorage.getItem("userid")) === post.user?.id ?
                     <button
-                        onClick={thetagstate}
+                        onClick={()=>{settagstate(!tagstate)}}
                     >Manage Tags</button> : ""
             }
             <div>Tags:
@@ -235,7 +221,7 @@ export const PostDetail = () => {
                                 })
                             }
                             <button onClick={saveUpdate}>Save</button>
-                            <button onClick={thetagstate} >Cancel</button>
+                            <button onClick={() => {settagstate(!tagstate)}} >Cancel</button>
                         </div>
                         :
 
