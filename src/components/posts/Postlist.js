@@ -55,34 +55,64 @@ export const PostList = () => {
 
     // FUNCTIONS ---------------------------------------------------------------------------------------------------------------
     const filterCategory = (categoryid) => {
-        return fetch(`http://localhost:8000/posts?catfilter=${categoryid}`, {
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("token")}`
-            }
-        })
-            .then(res => res.json())
-            .then(res => setFiltered(res))
+        if (categoryid == 0) {
+            return fetch(`http://localhost:8000/posts`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        } else {
+            return fetch(`http://localhost:8000/posts?catfilter=${categoryid}`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+
+        }
     }
 
     const filterUser = (userid) => {
-        return fetch(`http://localhost:8000/posts?userfilter=${userid}`, {
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("token")}`
-            }
-        })
-            .then(res => res.json())
-            .then(res => setFiltered(res))
+        if (userid == 0) {
+            return fetch(`http://localhost:8000/posts`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        } else {
+            return fetch(`http://localhost:8000/posts?userfilter=${userid}`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        }
     }
 
-
     const filterTag = (tagid) => {
-        return fetch(`http://localhost:8000/posts?tagfilter=${tagid}`, {
-            headers: {
-                "Authorization": `Token ${localStorage.getItem("token")}`
-            }
-        })
-            .then(res => res.json())
-            .then(res => setFiltered(res))
+        if (tagid == 0) {
+            return fetch(`http://localhost:8000/posts`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        } else {
+            return fetch(`http://localhost:8000/posts?tagfilter=${tagid}`, {
+                headers: {
+                    "Authorization": `Token ${localStorage.getItem("token")}`
+                }
+            })
+                .then(res => res.json())
+                .then(res => setFiltered(res))
+        }
     }
 
     const searchFunction = (event) => {
@@ -102,21 +132,21 @@ export const PostList = () => {
     return (<>
         <div className="filters">
             <select className="filterBox" onChange={(evt) => { filterCategory(evt.target.value) }} name="filter" id="filter">
-                <option value="">category</option>
+                <option value={0}>category</option>
                 {categories.map(category => {
                     return <option value={category.id}>{category.label}</option>
                 })}
             </select>
 
             <select className="filterBox" onChange={(evt) => { filterUser(evt.target.value) }} name="filter" id="filter">
-                <option value="">user</option>
+                <option value={0}>user</option>
                 {users.map(user => {
-                    return <option value={user.id}>{user.username}</option>
+                    return <option value={user.id}>{user.user?.username}</option>
                 })}
             </select>
 
             <select className="filterBox" onChange={(evt) => { filterTag(evt.target.value) }} name="filter" id="filter">
-                <option value="">tag</option>
+                <option value={0}>tag</option>
                 {tags.map(tag => {
                     return <option value={tag.id}>{tag.label}</option>
                 })}
@@ -139,8 +169,8 @@ export const PostList = () => {
             filtered.map(each => {
                 return <div key={each.id} className="postObj">
                     <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                    <div className="postInfo"> {each.user_id.user.first_name} {each.user_id.user.last_name}</div>
-                    {/* <div className="postInfo">{each.category.label}</div> */}
+                    <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
+                    <div className="postInfo">{each.category?.label}</div>
                 </div>
             })
         }

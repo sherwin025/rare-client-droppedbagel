@@ -27,7 +27,7 @@ export const NewPost = () => {
     const submitposttoapi = () => {
         const copy = newpost
         copy["approved"] = 1
-        copy["user_id"] = parseInt(localStorage.getItem("userid"))
+        copy["user"] = parseInt(localStorage.getItem("userid"))
 
         New_post(copy)
             .then((res) => {
@@ -75,8 +75,8 @@ export const NewPost = () => {
             </div>
             <div className="field">
                 <div className="select">
-                    <select className="select" name="category_id"
-                        id="category_id"
+                    <select className="select" name="category"
+                        id="category"
                         onChange={handlepostchanges}>
                         <option>Category Select</option>
                         {
