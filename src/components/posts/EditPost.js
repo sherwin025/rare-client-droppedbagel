@@ -18,8 +18,8 @@ export const EditPost = () => {
     useEffect(() => {
         let postTags = []
         if (post.tags?.length > 0) {
-            for (const tagId of post.tags) {
-                postTags.push(tagId)
+            for (const tag of post.tags) {
+                postTags.push(tag.id)
             }
             setPostTags(postTags)
 
@@ -54,7 +54,7 @@ export const EditPost = () => {
 
     const handleControlledInput = (event) => {
         const newPost = Object.assign({}, post)
-        if (event.target.name === "category_id") {
+        if (event.target.name === "category") {
             newPost[event.target.name] = parseInt(event.target.value)
         } else {
             newPost[event.target.name] = event.target.value
@@ -66,6 +66,7 @@ export const EditPost = () => {
         const updatedPost = Object.assign({}, post)
         updatedPost.user = updatedPost.user?.id
         updatedPost.tags = postTags
+        updatedPost.category = post.category?.id
         updatePost(postId, updatedPost)
             .then(() => history.push(`/posts/${postId}`))
     }

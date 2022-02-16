@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
-import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions } from "./PostManager"
-import { Message, AddCircleOutline } from '@material-ui/icons';
+import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions, updatePost } from "./PostManager"
+import { Message, AddCircleOutline, FastfoodOutlined } from '@material-ui/icons';
 import { ListItemIcon, MenuItem, Select } from "@material-ui/core";
 import TrashIcon from '../comments/trash.svg'
-
+import { getAllTags } from "../tags/TagManager";
 
 
 
@@ -16,12 +16,17 @@ export const PostDetail = () => {
     const [reactions, setReaction] = useState(false)
     const history = useHistory()
     const [defaultreactions, setreactions] = useState([])
+    const [tagstate, settagstate] = useState(0)
+    const [tags, setTags] = useState([])
+    const [postTags, setPostTags] = useState([])
+
 
 
     useEffect((
         () => {
-            getSinglePost(parseInt(postId)).then(res => setpost(res))
+            getthepost()
             GetReactions().then(res => setreactions(res))
+            getAllTags().then(setTags)
         }
     ), [])
 
@@ -37,11 +42,32 @@ export const PostDetail = () => {
         }
     ), [postReaction])
 
+    useEffect(() => {
+        let postTags = []
+        if (post.tags?.length > 0) {
+            for (const tag of post.tags) {
+                postTags.push(tag.id)
+            }
+            setPostTags(postTags)
+
+        }
+    }, [post])
+
+    const getthepost = () => {
+        getSinglePost(parseInt(postId)).then(res => setpost(res))
+    }
+
     const filteredreactions = () => {
         return GetPostReactions().then(res => {
             let array = res.filter(each => each.post_id === parseInt(postId))
             setPostReaction(array)
         })
+    }
+
+    const thetagstate = () => {
+        tagstate ?
+            settagstate(0)
+            : settagstate(1)
     }
 
     const deletepost = (id) => {
@@ -51,7 +77,19 @@ export const PostDetail = () => {
                 .then(GetPosts)
                 .then(res => setposts(res))
         } else {
-            
+
+        }
+    }
+    const checkTag = (event) => {
+        let tagId = parseInt(event.target.value)
+        let copy = [...postTags]
+        let alreadySelected = copy.find((tag) => tag === tagId)
+        if (alreadySelected) {
+            let newCopy = copy.filter((id) => id !== tagId)
+            setPostTags(newCopy)
+        } else {
+            copy.push(tagId)
+            setPostTags(copy)
         }
     }
 
@@ -100,6 +138,16 @@ export const PostDetail = () => {
         return sadEmoji
     }
 
+    const saveUpdate = () => {
+        const updatedPost = Object.assign({}, post)
+        updatedPost.user = updatedPost.user?.id
+        updatedPost.tags = postTags
+        updatedPost.category = post.category?.id
+        updatePost(postId, updatedPost)
+            .then(getthepost)
+            .then(settagstate(0))
+    }
+
     return (<>
         <div key={post.id} className="postDetailContainer">
             <div className="postDetailTop">
@@ -139,7 +187,36 @@ export const PostDetail = () => {
                 </div>
             </div>
             <div className="postDetailContent">{post.content}</div>
+            {
+                parseInt(localStorage.getItem("userid")) === post.user?.id ?
+                    <button
+                        onClick={thetagstate}
+                    >Manage Tags</button> : ""
+            }
+            <div>Tags:
+                {
+                    tagstate ?
+                        <div>
+                            {
+                                tags.map((tag) => {
+                                    return <div key={tag.id} className="option">
+                                        <input className="checkbox" type="checkbox" id={tag.id} name="tags" value={tag.id}
+                                            checked={postTags.find((tagId) => tagId === tag.id) ? "checked" : ""}
+                                            onChange={checkTag}>
+                                        </input>
+                                        <label className="checkbox-label" htmlFor={tag.id}>{tag.label}</label>
+                                    </div>
+                                })
+                            }
+                            <button onClick={saveUpdate}>Save</button>
+                            <button onClick={thetagstate} >Cancel</button>
+                        </div>
+                        :
+
+                        post.tags?.map(each => <div>{each.label}</div>)
+                }
+            </div>
         </div>
-        <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>              
+        <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>
     </>)
 }
