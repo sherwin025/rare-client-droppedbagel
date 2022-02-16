@@ -24,9 +24,10 @@ export const CommentForm = () => {
 
     const saveComment = () => {
         const newComment = {
-            post_id: parseInt(userPostId),
-            author_id: parseInt(localStorage.getItem("token")),
-            content: userComment
+            user: parseInt(localStorage.getItem("userid")),
+            post: parseInt(userPostId),
+            text: userComment,
+            date: Date.now()
         }
         if (newComment.post_id !== 0) {
             addComment(newComment)

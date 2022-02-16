@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
-import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions, updatePost } from "./PostManager"
+import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions, updatePost, deletePost, addReaction } from "./PostManager"
 import { Message, AddCircleOutline, FastfoodOutlined } from '@material-ui/icons';
 import { ListItemIcon, MenuItem, Select } from "@material-ui/core";
 import TrashIcon from '../comments/trash.svg'
 import { getAllTags } from "../tags/TagManager";
+import { Button, Dialog, DialogContent, DialogTitle, Input } from "@material-ui/core";
+
 
 
 
 export const PostDetail = () => {
     const { postId } = useParams()
-    const [post, setpost] = useState({})
-    const [postReaction, setPostReaction] = useState([])
-    const [reactions, setReaction] = useState(false)
+    const [post, setPost] = useState({})
     const history = useHistory()
-    const [defaultreactions, setreactions] = useState([])
     const [tagstate, settagstate] = useState(0)
     const [tags, setTags] = useState([])
     const [postTags, setPostTags] = useState([])
-
-
-
+    const [reactions, setReactions] = useState([])
+    const [reactionCounts, setReactionCounts] = useState([])
+    const [newReaction, setNewReaction] = useState(false)
+    const alertNewReaction = () => setNewReaction(!newReaction)
+    const [newDiag, setNewDiag] = useState(false)
+    const toggleNewDiag = () => setNewDiag(!newDiag)
+    const [newReactionObject, setNewReactionObject] = useState({
+        label: "",
+        image_url: ""
+    })
+    
     useEffect((
         () => {
             getthepost()
@@ -30,17 +37,14 @@ export const PostDetail = () => {
         }
     ), [])
 
-    useEffect((
-        () => {
-            filteredreactions()
-        }
-    ), [])
+
 
     useEffect((
         () => {
-            postReaction.length != 0 ? setReaction(true) : setReaction(false)
+            getSinglePost(postId).then(setPost)
+            GetReactions().then(setReactions)
         }
-    ), [postReaction])
+    ), [newReaction])
 
     useEffect(() => {
         let postTags = []
@@ -64,6 +68,7 @@ export const PostDetail = () => {
         })
     }
 
+
     const thetagstate = () => {
         tagstate ?
             settagstate(0)
@@ -76,10 +81,9 @@ export const PostDetail = () => {
             deletePost(id)
                 .then(GetPosts)
                 .then(res => setposts(res))
-        } else {
-
-        }
+        } 
     }
+    
     const checkTag = (event) => {
         let tagId = parseInt(event.target.value)
         let copy = [...postTags]
@@ -90,52 +94,57 @@ export const PostDetail = () => {
         } else {
             copy.push(tagId)
             setPostTags(copy)
+
         }
     }
 
-
-    const addRemoveReaction = (evt) => {
-        evt.preventDefault()
-        const value = evt.target.value
-        if (parseInt(value) === 0) {
-
-        } else {
-            const newPostReaction = {
-                user_id: parseInt(localStorage.getItem('token')),
-                reaction_id: parseInt(value),
-                post_id: parseInt(postId)
-            };
-
-            let reactionPost = postReaction.find((reaction) => {
-                return reaction.user_id === parseInt(localStorage.getItem('token')) && reaction.reaction_id === parseInt(value) && reaction.post_id === parseInt(postId)
+    const handleReaction = (e) => {
+        const reactionExists = post.post_reactions.find(reaction => reaction.user.id === parseInt(localStorage.getItem('userid')) && reaction.post.id === parseInt(postId) && reaction.reaction.id === parseInt(e.target.value))
+        if (reactionExists) {
+            deletePostReaction(reactionExists.id).then(() => {
+                document.getElementById("reactions").value = "0"
+                alertNewReaction()
             })
-
-            reactionPost ? deletePostReaction(reactionPost.id)
-                .then(() => {
-                    filteredreactions().then(document.getElementById("reactions").value = "0")
-                })
-                : New_reaction(newPostReaction)
-                    .then(() => {
-                        filteredreactions()
-                            .then(() => {
-                                countHappy()
-                                countLaugh()
-                                countLove()
-                                countAngry()
-                                countMindBlown()
-                                countSad()
-                            })
-                    })
-                    .then(document.getElementById("reactions").value = "0")
-
+        } else {
+            const newReaction = {
+                post_id: parseInt(postId),
+                reaction_id: parseInt(e.target.value)
+            }
+            New_reaction(newReaction).then(() => {
+                document.getElementById("reactions").value = "0"
+                alertNewReaction()
+            })
         }
     }
 
-    const countReactions = (id) => {
-        const sadEmoji = postReaction.filter((reaction) => {
-            return reaction.reaction_id === parseInt(id)
+    useEffect(() => {
+        if (post.post_reactions) {
+            const updatedReactionCount = []
+            const copy = [...post.post_reactions]
+            for (const reaction of reactions) {
+                const reactionCount = copy.filter(post_reaction => post_reaction.reaction.id === reaction.id)
+                if (reactionCount.length > 0) {
+                    const reactionCountObj = {
+                        reaction: reaction,
+                        count: reactionCount.length
+                    }
+                    updatedReactionCount.push(reactionCountObj)
+                }
+            }
+            updatedReactionCount.sort((a, b) => {
+                return b.count - a.count
+            })
+            setReactionCounts(updatedReactionCount)
+
+        }
+    }, [post.post_reactions, newReaction])
+
+
+    const createNewReactionObject = () => {
+        addReaction(newReactionObject).then(() => {
+            alertNewReaction()
+            toggleNewDiag()
         })
-        return sadEmoji
     }
 
     const saveUpdate = () => {
@@ -158,35 +167,52 @@ export const PostDetail = () => {
             <div className="postdetailbottom"> publication date: {post.publication_date}</div>
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
-                <div className="postDetailName">By {post.user?.first_name} {post.user?.last_name}</div>
-                <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
-                <div className="postAddReaction">
-                    <select className="emojiselect" defaultValue="0" onChange={(evt) => { addRemoveReaction(evt) }} name="reactions" id="reactions">
-                        <option className="emojiOption" value="0">+</option>
-                        {defaultreactions.map(each => {
-                            return <option key={each.id} className="emojiOption" value={each.id}>{each.image_url} </option>
-                        })}
-                    </select>
+               <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
+                    <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
 
-                    <div className="postReactions">
-                        {
-                            defaultreactions.map(
-                                eachReaction => {
-                                    return countReactions(eachReaction.id).length >= 1
-                                        ? <div key={eachReaction.id} className="reactionContainer">
-                                            <div className="emoji">{eachReaction.image_url}</div>
-                                            <div className={countReactions(eachReaction.id).length > 1 ? "reactionNumber" : "reactionNumber invisible"}>
-                                                {countReactions(eachReaction.id).length}
-                                            </div>
-                                        </div>
-                                        : ""
-                                }
-                            )
-                        }
+                    <div><button onClick={toggleNewDiag}>New Reaction</button></div>
+                    <Dialog open={newDiag} onClose={toggleNewDiag}>
+                        <DialogTitle className="newReaction-title">Create New Reaction Option</DialogTitle>
+                        <DialogContent className="newReaction-content">
+                            <Input className="newReaction-input" id="newReaction-label" placeholder="Label" onChange={(e) => {
+                                const copy = { ...newReactionObject }
+                                copy.label = e.target.value
+                                setNewReactionObject(copy)
+                            }}></Input>
+                            <Input className="newReaction-input" id="newReaction-imageUrl" placeholder="Emoji" onChange={(e) => {
+                                const copy = { ...newReactionObject }
+                                copy.image_url = e.target.value
+                                setNewReactionObject(copy)
+                            }}></Input>
+                        </DialogContent>
+                        <div className="newReaction-btns">
+                            <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={createNewReactionObject}>Save</Button></div>
+                            <div className="reaction-btn"><Button className="reaction-btn" variant="outlined" onClick={toggleNewDiag}>Cancel</Button></div>
+                        </div>
+
+                    </Dialog>
+
+                    <div className="postAddReaction">
+                        <select className="emojiselect" defaultValue="0" onChange={handleReaction} name="reactions" id="reactions">
+                            <option key={"0"} className="emojiOption" value="0">+</option>
+                            {reactions.map(each => {
+                                return <option key={each.id} className="emojiOption" value={each.id}>{each.image_url} </option>
+                            })}
+                        </select>
+
+                        <div className="postReactions">
+                            {
+                                reactionCounts.map((reactionCount) => {
+                                    return <div key={reactionCount.id}>
+                                        <div>{reactionCount.reaction.image_url}</div>
+                                        <div className={reactionCount.count > 1 ? "reactionNumber" : "reactionNumber invisible"}>{reactionCount.count}</div>
+                                    </div>
+                                })
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="postDetailContent">{post.content}</div>
+                <div className="postDetailContent">{post.content}</div>
             {
                 parseInt(localStorage.getItem("userid")) === post.user?.id ?
                     <button
@@ -219,4 +245,5 @@ export const PostDetail = () => {
         </div>
         <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>
     </>)
+
 }
