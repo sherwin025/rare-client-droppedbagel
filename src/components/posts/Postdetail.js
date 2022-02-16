@@ -1,16 +1,23 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useParams } from "react-router-dom"
-import { getSinglePost, New_reaction, deletePostReaction, GetReactions, deletePost, addReaction } from "./PostManager"
-import { Message } from '@material-ui/icons';
+import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions, updatePost, deletePost, addReaction } from "./PostManager"
+import { Message, AddCircleOutline, FastfoodOutlined } from '@material-ui/icons';
+import { ListItemIcon, MenuItem, Select } from "@material-ui/core";
 import TrashIcon from '../comments/trash.svg'
+import { getAllTags } from "../tags/TagManager";
 import { Button, Dialog, DialogContent, DialogTitle, Input } from "@material-ui/core";
+
+
 
 
 export const PostDetail = () => {
     const { postId } = useParams()
     const [post, setPost] = useState({})
     const history = useHistory()
+    const [tagstate, settagstate] = useState(0)
+    const [tags, setTags] = useState([])
+    const [postTags, setPostTags] = useState([])
     const [reactions, setReactions] = useState([])
     const [reactionCounts, setReactionCounts] = useState([])
     const [newReaction, setNewReaction] = useState(false)
@@ -21,6 +28,15 @@ export const PostDetail = () => {
         label: "",
         image_url: ""
     })
+    
+    useEffect((
+        () => {
+            getthepost()
+            GetReactions().then(res => setreactions(res))
+            getAllTags().then(setTags)
+        }
+    ), [])
+
 
 
     useEffect((
@@ -30,13 +46,54 @@ export const PostDetail = () => {
         }
     ), [newReaction])
 
+    useEffect(() => {
+        let postTags = []
+        if (post.tags?.length > 0) {
+            for (const tag of post.tags) {
+                postTags.push(tag.id)
+            }
+            setPostTags(postTags)
+
+        }
+    }, [post])
+
+    const getthepost = () => {
+        getSinglePost(parseInt(postId)).then(res => setpost(res))
+    }
+
+    const filteredreactions = () => {
+        return GetPostReactions().then(res => {
+            let array = res.filter(each => each.post_id === parseInt(postId))
+            setPostReaction(array)
+        })
+    }
+
+
+    const thetagstate = () => {
+        tagstate ?
+            settagstate(0)
+            : settagstate(1)
+    }
+
     const deletepost = (id) => {
         let result = confirm("Are you sure you want to delete this post? ")
         if (result) {
             deletePost(id)
                 .then(GetPosts)
                 .then(res => setposts(res))
+        } 
+    }
+    
+    const checkTag = (event) => {
+        let tagId = parseInt(event.target.value)
+        let copy = [...postTags]
+        let alreadySelected = copy.find((tag) => tag === tagId)
+        if (alreadySelected) {
+            let newCopy = copy.filter((id) => id !== tagId)
+            setPostTags(newCopy)
         } else {
+            copy.push(tagId)
+            setPostTags(copy)
 
         }
     }
@@ -90,18 +147,27 @@ export const PostDetail = () => {
         })
     }
 
-    return (
-        <>
-            <div key={post.id} className="postDetailContainer">
-                <div className="postDetailTop">
-                    <div><button className="postDetailAddComments" onClick={() => history.push(`/commentForm/${post.id}`)}><Message /></button></div>
-                    <div className="postDetailTitle"> {post.title}</div>
-                    <div className="postDetailCategory">{post.category?.label}</div>
-                </div>
-                <div className="postdetailbottom"> publication date: {post.publication_date}</div>
-                <div className="postDetailImage"><img src={post.image_url}></img></div>
-                <div className="postDetailBottom">
-                    <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
+    const saveUpdate = () => {
+        const updatedPost = Object.assign({}, post)
+        updatedPost.user = updatedPost.user?.id
+        updatedPost.tags = postTags
+        updatedPost.category = post.category?.id
+        updatePost(postId, updatedPost)
+            .then(getthepost)
+            .then(settagstate(0))
+    }
+
+    return (<>
+        <div key={post.id} className="postDetailContainer">
+            <div className="postDetailTop">
+                <div><button className="postDetailAddComments" onClick={() => history.push(`/commentForm/${post.id}`)}><Message /></button></div>
+                <div className="postDetailTitle"> {post.title}</div>
+                <div className="postDetailCategory">{post.category?.label}</div>
+            </div>
+            <div className="postdetailbottom"> publication date: {post.publication_date}</div>
+            <div className="postDetailImage"><img src={post.image_url}></img></div>
+            <div className="postDetailBottom">
+               <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
                     <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
 
                     <div><button onClick={toggleNewDiag}>New Reaction</button></div>
@@ -147,8 +213,37 @@ export const PostDetail = () => {
                     </div>
                 </div>
                 <div className="postDetailContent">{post.content}</div>
+            {
+                parseInt(localStorage.getItem("userid")) === post.user?.id ?
+                    <button
+                        onClick={thetagstate}
+                    >Manage Tags</button> : ""
+            }
+            <div>Tags:
+                {
+                    tagstate ?
+                        <div>
+                            {
+                                tags.map((tag) => {
+                                    return <div key={tag.id} className="option">
+                                        <input className="checkbox" type="checkbox" id={tag.id} name="tags" value={tag.id}
+                                            checked={postTags.find((tagId) => tagId === tag.id) ? "checked" : ""}
+                                            onChange={checkTag}>
+                                        </input>
+                                        <label className="checkbox-label" htmlFor={tag.id}>{tag.label}</label>
+                                    </div>
+                                })
+                            }
+                            <button onClick={saveUpdate}>Save</button>
+                            <button onClick={thetagstate} >Cancel</button>
+                        </div>
+                        :
+
+                        post.tags?.map(each => <div>{each.label}</div>)
+                }
             </div>
-            <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>
-        </>
-    )
+        </div>
+        <button onClick={() => deletepost(post.id)}><img src={TrashIcon} style={{ height: "1.25rem" }} ></img></button>
+    </>)
+
 }
