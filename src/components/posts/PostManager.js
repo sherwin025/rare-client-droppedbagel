@@ -90,3 +90,15 @@ export const deletePostReaction = (id) => {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
 }
+
+
+export const addReaction = (reactionBody) => {
+    return fetch("http://localhost:8000/reactions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(reactionBody)
+    })
+}
