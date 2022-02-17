@@ -16,6 +16,7 @@ import { Landing } from "./home/Landing"
 import { AdminPostList } from "./posts/adminPostList" 
 
 export const ApplicationViews = () => {
+  const admin = localStorage.getItem('isStaff') === "true"
   return (<>
 
     <Route exact path="/posts" >
@@ -43,8 +44,13 @@ export const ApplicationViews = () => {
       <NewPost/>
     </Route>          
     <Route exact path="/users">
-        <Users />
-      </Route>
+      {
+        admin
+        ? <Users /> 
+        : ""
+      }
+
+    </Route>
     <Route exact path="/users/:userId">
         <UserPage />
     </Route>

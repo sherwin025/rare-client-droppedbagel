@@ -25,3 +25,37 @@ export const deactivateUser = (id) => {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
 }
+
+export const makeAdmin = (id) => {
+    return fetch(`http://localhost:8000/users/${id}/makeadmin`, {
+        method: "PUT",
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
+}
+
+export const removeAdmin = (id) => {
+    return fetch(`http://localhost:8000/users/${id}/removeadmin`, {
+        method: "PUT",
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
+}
+
+export const addDemotion = (new_demotion) => {
+    return fetch("http://localhost:8000/demotions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(new_demotion)
+    })
+}
+
+export const deleteDemotion = (demotionId) => {
+    return fetch(`http://localhost:8000/demotions/${demotionId}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Token ${localStorage.getItem('token')}`
+        }
+      })
+}

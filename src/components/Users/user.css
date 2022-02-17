@@ -39,3 +39,11 @@
     display: flex;
     margin-right: 5px;
 }
+
+.recommendDeactivate {
+    color: red;
+}
+
+.recommendDemote {
+    color: orange;
+}
