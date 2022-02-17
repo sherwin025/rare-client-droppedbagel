@@ -38,7 +38,7 @@ export const Users = () => {
 
 
     const changeActiveState = (user) => {
-        const currentDemotion = user.demotions.find(demotion => demotion.deactivate === true)
+        const currentDemotion = user.demotions?.find(demotion => demotion.deactivate === true)
         if (user.user.is_active) {
             if (user.id === userId) {
                 toggleWarningDiag()
@@ -65,7 +65,7 @@ export const Users = () => {
     }
 
     const changeAdminState = (user) => {
-        const currentDemotion = user.demotions.find(demotion => demotion.demote === true)
+        const currentDemotion = user.demotions?.find(demotion => demotion.demote === true)
         if (user.user.is_staff) {
             if (currentDemotion && currentDemotion.first_approver.id === parseInt(localStorage.getItem('userid'))) {
                 deleteDemotion(currentDemotion.id).then(alertNewState)
@@ -74,7 +74,7 @@ export const Users = () => {
                 const admins = activeUsers.filter(user => user.user.is_staff)
                 admins.length > 1
                     ? removeAdmin(user.id).then(() => {
-                        const adminDemotions = user.demotions.filter(demotion => demotion.demote === true)
+                        const adminDemotions = user.demotions?.filter(demotion => demotion.demote === true)
                         for (const demotion of adminDemotions) {
                             deleteDemotion(demotion.id)
                         }
@@ -137,7 +137,7 @@ export const Users = () => {
                             <button onClick={() => changeAdminState(user)}>
                                 {
                                     user.user.is_staff
-                                        ? user.demotions.find(demotion => demotion.demote === true)
+                                        ? user.demotions?.find(demotion => demotion.demote === true)
                                             ? user.demotions?.find(demotion => demotion.demote === true && demotion.first_approver.id === parseInt(localStorage.getItem('userid')))
                                                 ? "Remove Recommendation to Demote"
                                                 : "Demote"

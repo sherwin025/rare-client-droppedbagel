@@ -60,6 +60,7 @@ export const NavBar = ({ token, setToken }) => {
                   ?
                   <button className="button is-outlined" onClick={() => {
                     setToken('')
+                    localStorage.removeItem('isStaff')
                     history.push('/login')
                   }}>Logout</button>
                   :
