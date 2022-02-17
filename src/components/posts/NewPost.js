@@ -28,18 +28,9 @@ export const NewPost = () => {
         const copy = newpost
         copy["approved"] = 1
         copy["user"] = parseInt(localStorage.getItem("userid"))
+        copy["tags"] = usertags
 
         New_post(copy)
-            .then((res) => {
-                for (const tag of usertags) {
-                    const tagobject = {
-                        post_id: res.id,
-                        tag_id: tag
-                    }
-                    New_entrytags(tagobject)
-                }
-                return res
-            })
             .then(res =>
                 history.push(`posts/${res.id}`)
             )
