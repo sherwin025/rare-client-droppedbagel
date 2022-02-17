@@ -49,7 +49,7 @@ export const ApplicationViews = () => {
         ? <Users /> 
         : ""
       }
-       
+
     </Route>
     <Route exact path="/users/:userId">
         <UserPage />
