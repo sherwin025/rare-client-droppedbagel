@@ -7,7 +7,6 @@ export const NavBar = ({ token, setToken }) => {
   const history = useHistory()
   const navbar = useRef()
   const hamburger = useRef()
-  const admin = localStorage.getItem('isStaff') === "true"
 
   const admin = localStorage.getItem('isStaff')
   console.log(admin)
@@ -40,11 +39,7 @@ export const NavBar = ({ token, setToken }) => {
               <Link to="/posts" className="navbar-item">Posts</Link>
               {admin == "true" ? <Link to="/adminposts" className="navbar-item">AdminPosts</Link> : ''}
               <Link to="/categories" className="navbar-item">Category Manager</Link>
-              {
-                admin
-                ? <Link to="/users" className="navbar-item">User Management</Link>
-                : ""
-              }
+              {admin == "true" ? <Link to="/users" className="navbar-item">User Management</Link> : "" }
               
               <Link to="/tags" className="navbar-item">Tag Management</Link>
               <Link to="/userposts" className="navbar-item">My Posts</Link>
