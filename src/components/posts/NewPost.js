@@ -26,7 +26,7 @@ export const NewPost = () => {
 
     const submitposttoapi = () => {
         const copy = newpost
-        copy["approved"] = 1
+        copy["approved"] = false //first sets approved to false 
         copy["user"] = parseInt(localStorage.getItem("userid"))
         copy["tags"] = usertags
 
