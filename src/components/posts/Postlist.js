@@ -14,6 +14,8 @@ export const PostList = () => {
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
 
+    const admin = localStorage.getItem('isStaff')
+
     useEffect((
         () => {
             Posts()
@@ -190,7 +192,7 @@ export const PostList = () => {
                     <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
                     <div className="postInfo">{each.category?.label}</div>
                     {/* if the user is an admin */}
-                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
+                    {admin == "true" ? <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div> : ''}
                 </div>
             })
         }
