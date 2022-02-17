@@ -29,7 +29,8 @@ export const Register = ({ setToken }) => {
         email: email.current.value,
         password: password.current.value,
         bio: bio.current.value,
-        profile_image_url: profilepicurl.current.value
+        profile_image_url: profilepicurl.current.value,
+        profile_pic: profilePic
       }
       // need to register user
 
@@ -113,15 +114,7 @@ export const Register = ({ setToken }) => {
               <div className="control">
                 <input className="input" type="text" placeholder="Profile Pic URL" ref={profilepicurl} />
               </div>
-              {/* <input type="file" id="user_image" onChange={createUserImageString} />
-              <input type="hidden" name="user_id" value={game.id} />
-              <button onClick={() => {
-                const newObj = {
-
-                }
-                postProfilePic()
-
-              }}>Upload image</button> */}
+              <input type="file" id="user_image" onChange={createUserImageString} />
             </div>
             <div className="field">
               <div className="control">

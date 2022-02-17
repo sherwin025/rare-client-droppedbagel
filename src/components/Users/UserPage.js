@@ -42,7 +42,7 @@ export const UserPage = () => {
             }
             return false
         })
-        console.log(areTheySubbed)
+        
 
         const subCount = allSubs.filter((sub) => {
             if (+sub.follower.id === +userId) {
@@ -78,7 +78,8 @@ export const UserPage = () => {
                
                 <div className="userBlock"><div className="user">
                     <p>Full Name: {user.user?.first_name} {user.user?.last_name} </p>
-                    <p>Profile Image: {user.profile_image_url}</p>
+                    <img src={`http://localhost:8000${user.profile_pic}`} alt="hello" />
+                    {/* <p>Profile Image: {user.profile_image_url}</p> */}
                     <p>Username: {user.user?.username}</p>
                     <p>Email: {user.user?.username}</p>
                     <p>Created: {user.created_on}</p>
