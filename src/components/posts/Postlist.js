@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { GetPosts } from "./PostManager"
+import { GetPosts, updatePost } from "./PostManager"
 import { getCategories } from "../../apimanager/categoryFetches"
 import { getAllUsers } from '../Users/userManager'
 import { getAllTags } from "../tags/TagManager";
@@ -16,8 +16,7 @@ export const PostList = () => {
 
     useEffect((
         () => {
-            GetPosts()
-                .then(res => setposts(res))
+            Posts()
         }
     ), [])
 
@@ -127,6 +126,25 @@ export const PostList = () => {
         }
     }
 
+    const updateApproval = (id) => {
+        let post = posts.find((obj) => {
+            return id == obj.id
+        })
+        const updatedPost = Object.assign({}, post)
+        updatedPost.approved = false
+        updatedPost.user = post.user?.id
+        updatedPost.category = post.category?.id
+        console.log(updatedPost)
+        updatePost(id, updatedPost)
+            .then(() => Posts())
+  
+    }
+
+    const Posts = () => {
+        GetPosts()
+                .then(res => setposts(res))
+    }
+
 
     // JSX ---------------------------------------------------------------------------------------------------------------
     return (<>
@@ -171,6 +189,8 @@ export const PostList = () => {
                     <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
                     <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
                     <div className="postInfo">{each.category?.label}</div>
+                    {/* if the user is an admin */}
+                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
                 </div>
             })
         }

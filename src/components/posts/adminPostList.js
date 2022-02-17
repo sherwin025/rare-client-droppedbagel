@@ -8,15 +8,27 @@ import { getAllTags } from "../tags/TagManager";
 
 export const AdminPostList = () => {
     const [posts, setposts] = useState([])
+    const [titles, setTitles] = useState([])
     const [categories, setCategories] = useState([])
     const [filtered, setFiltered] = useState([])
     const [users, setUsers] = useState([])
     const [search, setSearch] = useState('')
     const [tags, setTags] = useState([])
 
+    const unapproveString = ' (UNAPPROVED) '
+
+
     useEffect((
         () => {
             adminPosts()
+        }
+    ), [])
+
+    useEffect((
+        () => {
+            const originalTitle = posts.map((title) => {
+                return title.title, title.id
+            })
         }
     ), [])
 
@@ -190,7 +202,6 @@ export const AdminPostList = () => {
                     <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
                     <div className="postInfo">{each.category?.label}</div>
                     <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Approve</button></div>
-                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
                 </div>
             })
         }
