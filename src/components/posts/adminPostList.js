@@ -190,6 +190,7 @@ export const AdminPostList = () => {
                     <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
                     <div className="postInfo">{each.category?.label}</div>
                     <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Approve</button></div>
+                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
                 </div>
             })
         }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { Link } from "react-router-dom"
-import { deletePost, GetPosts } from "./PostManager"
+import { deletePost, GetUserPosts } from "./PostManager"
 import "./MyPost.css"
 import TrashIcon from '../comments/trash.svg'
 
@@ -13,7 +13,7 @@ export const UserPostList = () => {
 
     useEffect((
         () => {
-            GetPosts()
+            GetUserPosts()
                 .then(res => setposts(res))
         }
     ), [])
@@ -33,7 +33,7 @@ export const UserPostList = () => {
         let result = confirm("Are you sure you want to delete this post? ")
         if (result) {
             deletePost(id)
-                .then(GetPosts)
+                .then(GetUserPosts())
                 .then(res => setposts(res))
         } else {
             
