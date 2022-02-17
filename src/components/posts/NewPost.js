@@ -11,6 +11,7 @@ export const NewPost = () => {
     const [newpost, setnewpost] = useState({})
     const history = useHistory()
     const [usertags, setusertags] = useState([])
+    const [basestring, setbasestring] = useState([])
 
     useEffect(() => {
         getAllTags().then(res => settags(res))
@@ -31,9 +32,26 @@ export const NewPost = () => {
         copy["tags"] = usertags
 
         New_post(copy)
-            .then(res =>
-                history.push(`posts/${res.id}`)
-            )
+            .then(res => {
+                const postimage = {
+                    "post": res.id,
+                    "postimage": basestring
+                }
+
+                fetch("http://localhost:8000/postimage", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Token ${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify(postimage)
+                }).then(
+                    history.push(`posts/${res.id}`)
+                )
+            })
+        
+
+
     }
 
     const addedtags = (event) => {
@@ -52,14 +70,27 @@ export const NewPost = () => {
         setusertags(copy)
     }
 
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(file);
+    }
+
+    const createGameImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            console.log("Base64 of file is", base64ImageString);
+            setbasestring(base64ImageString)
+        });
+    }
+
     return (<>
         <div className="newPostForm edit-form">
-        <div className="form-title">New Post</div>
+            <div className="form-title">New Post</div>
             <div className="field">
                 <input className="input" type="text" name="title" placeholder="Title" onChange={handlepostchanges} />
             </div>
             <div className="field">
-                <input className="input" type="text" name="image_url" placeholder="Image URL" onChange={handlepostchanges} />
+                <input type="file" id="postimage" onChange={createGameImageString} />
             </div>
             <div className="field">
                 <textarea className="textarea" type="text" name="content" placeholder="Article Content" onChange={handlepostchanges}></textarea>

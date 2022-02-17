@@ -37,7 +37,7 @@ export const ApplicationViews = () => {
     <Route exact path="/tags">
       <TagManagement />
     </Route>
-    <Route exact path="/my-posts">
+    <Route exact path="/userposts">
       <UserPostList />
     </Route>
     <Route exact path="/new-post">

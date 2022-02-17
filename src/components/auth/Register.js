@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { useHistory } from "react-router-dom"
 import { registerUser } from "./AuthManager"
@@ -16,6 +16,7 @@ export const Register = ({ setToken }) => {
   const passwordDialog = useRef()
   const history = useHistory()
   const profilepicurl = useRef()
+  const [profilePic, setProfilePic] = useState("")
 
   const handleRegister = (e) => {
     e.preventDefault()
@@ -28,8 +29,10 @@ export const Register = ({ setToken }) => {
         email: email.current.value,
         password: password.current.value,
         bio: bio.current.value,
-        profile_image_url: profilepicurl.current.value
+        profile_image_url: profilepicurl.current.value,
+        profile_pic: profilePic
       }
+      // need to register user
 
       registerUser(newUser)
         .then(res => {
@@ -42,6 +45,21 @@ export const Register = ({ setToken }) => {
       passwordDialog.current.showModal()
     }
   }
+
+  const getBase64 = (file, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(file);
+}
+
+  const createUserImageString = (event) => {
+    getBase64(event.target.files[0], (base64ImageString) => {
+        console.log("Base64 of file is", base64ImageString);
+        setProfilePic(base64ImageString)
+
+        // Update a component state variable to the value of base64ImageString
+    });
+}
 
   return (
     <section className="columns is-centered">
@@ -96,6 +114,7 @@ export const Register = ({ setToken }) => {
               <div className="control">
                 <input className="input" type="text" placeholder="Profile Pic URL" ref={profilepicurl} />
               </div>
+              <input type="file" id="user_image" onChange={createUserImageString} />
             </div>
             <div className="field">
               <div className="control">

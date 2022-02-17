@@ -151,6 +151,11 @@ export const PostDetail = () => {
                 <div className="postDetailCategory">{post.category?.label}</div>
             </div>
             <div className="postdetailbottom"> publication date: {post.publication_date}</div>
+            {
+            post.pictures?.map(each => {
+                return <img src={`http://localhost:8000${each.postimage}`} alt="article"/>
+            })
+            }
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
                 <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>

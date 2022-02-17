@@ -14,6 +14,14 @@ export const GetAdminPosts = () => {
         .then(res => res.json())
 }
 
+export const GetUserPosts = () => {
+
+    return fetch("http://localhost:8000/posts?user=true", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
+        .then(res => res.json())
+}
+
 export const getSinglePost = (id) => {
 
     return fetch(`http://localhost:8000/posts/${id}`, {
