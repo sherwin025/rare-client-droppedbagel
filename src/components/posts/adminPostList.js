@@ -146,6 +146,13 @@ export const AdminPostList = () => {
         updatedPost.approved = true
         updatedPost.user = post.user?.id
         updatedPost.category = post.category?.id
+        let postTags = []
+        if (post.tags?.length > 0) {
+            for (const tag of post.tags) {
+                postTags.push(tag.id)
+            }
+        }
+        updatedPost.tags = postTags
         console.log(updatedPost)
         updatePost(id, updatedPost)
             .then(() => adminPosts())
