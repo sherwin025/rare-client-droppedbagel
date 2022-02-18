@@ -118,3 +118,12 @@ export const addReaction = (reactionBody) => {
         body: JSON.stringify(reactionBody)
     })
 }
+
+
+export const getPostImages = () => {
+
+    return fetch("http://localhost:8000/postimage", {
+        headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
+    })
+        .then(res => res.json())
+}

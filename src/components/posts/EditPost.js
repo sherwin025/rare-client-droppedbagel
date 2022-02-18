@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { getCategories } from "../../apimanager/categoryFetches";
 import { getAllTags } from "../tags/TagManager";
-import { getSinglePost, updatePost } from "./PostManager";
+import { getSinglePost, updatePost, getPostImages } from "./PostManager";
 import "./PostForm.css"
 
 
@@ -14,6 +14,8 @@ export const EditPost = () => {
     const [tags, setTags] = useState([])
     const history = useHistory()
     const [postTags, setPostTags] = useState([])
+    const [basestring, setbasestring] = useState('')
+    const [postImages, setPostImages] = useState([])
 
     useEffect(() => {
         let postTags = []
@@ -37,6 +39,12 @@ export const EditPost = () => {
     useEffect(() => {
         getSinglePost(postId).then(setPost)
     }, [postId])
+
+    useEffect(() => {
+        getPostImages().then(setPostImages)
+    }, [])
+
+
 
     const checkTag = (event) => {
         let tagId = parseInt(event.target.value)
@@ -68,52 +76,87 @@ export const EditPost = () => {
         updatedPost.tags = postTags
         updatedPost.category = post.category?.id
         updatePost(postId, updatedPost)
-            .then(() => history.push(`/posts/${postId}`))
-    }
+            .then(() => {
+                const postimage = {
+                    "post": post.id,
+                    "postimage": basestring
+                }
 
-    return (
-        <div className="edit-form">
-            <div className="form-title">Edit Post</div>
-            <div className="field">
-                <input className="input" type="text" value={post.title} name="title" id="title" onChange={handleControlledInput}></input>
-            </div>
-            <div className="field">
-                <input className="input" type="text" value={post.image_url} name="image_url" id="image_url" onChange={handleControlledInput}></input>
-            </div>
-            <div className="field">
-                <textarea className="textarea" type="textarea" value={post.content} name="content" id="content" onChange={handleControlledInput}></textarea>
-            </div>
-            <div className="field">
-                <div className="select">
-                    <select className="select" name="category" id="category" value={post.category?.id} onChange={handleControlledInput}>
-                        {
-                            categories.map((category) => {
-                                return <option key={category.id} value={category.id}>{category.label}</option>
-                            })
-                        }
-                    </select>
-                </div>
-            </div>
-            <div className="field">
-                <div className="tag-options">
+                fetch(`http://localhost:8000/postimage/${findPostImage.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Token ${localStorage.getItem("token")}`
+                    },
+                    body: JSON.stringify(postimage)
+                }).then(
+                    history.push(`/posts/${postId}`)
+                )
+    })
+
+
+}
+
+const getBase64 = (file, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(file);
+}
+
+const createGameImageString = (event) => {
+    getBase64(event.target.files[0], (base64ImageString) => {
+        console.log("Base64 of file is", base64ImageString);
+        setbasestring(base64ImageString)
+    });
+}
+
+const findPostImage = postImages.find((post) => {
+    return post.post == postId
+})
+
+return (
+    <div className="edit-form">
+        <div className="form-title">Edit Post</div>
+        <div className="field">
+            <input className="input" type="text" value={post.title} name="title" id="title" onChange={handleControlledInput}></input>
+        </div>
+        <div className="field">
+            <input type="file" id="postimage" onChange={createGameImageString} />
+        </div>
+        <div className="field">
+            <textarea className="textarea" type="textarea" value={post.content} name="content" id="content" onChange={handleControlledInput}></textarea>
+        </div>
+        <div className="field">
+            <div className="select">
+                <select className="select" name="category" id="category" value={post.category?.id} onChange={handleControlledInput}>
                     {
-                        tags.map((tag) => {
-                            return <div key={tag.id} className="option">
-                                <input className="checkbox" type="checkbox" id={tag.id} name="tags" value={tag.id}
-                                    checked={postTags.find((tagId) => tagId === tag.id) ? "checked" : ""}
-                                    onChange={checkTag}>
-                                </input>
-                                <label className="checkbox-label" htmlFor={tag.id}>{tag.label}</label>
-                            </div>
+                        categories.map((category) => {
+                            return <option key={category.id} value={category.id}>{category.label}</option>
                         })
                     }
-                </div>
+                </select>
             </div>
-            <div className="field">
-                <button className="saveEdit-btn" onClick={saveUpdate}>Save</button>
-                <button className="saveEdit-btn" onClick={()=> {history.push("/my-posts")}}>Cancel</button>
+        </div>
+        <div className="field">
+            <div className="tag-options">
+                {
+                    tags.map((tag) => {
+                        return <div key={tag.id} className="option">
+                            <input className="checkbox" type="checkbox" id={tag.id} name="tags" value={tag.id}
+                                checked={postTags.find((tagId) => tagId === tag.id) ? "checked" : ""}
+                                onChange={checkTag}>
+                            </input>
+                            <label className="checkbox-label" htmlFor={tag.id}>{tag.label}</label>
+                        </div>
+                    })
+                }
             </div>
+        </div>
+        <div className="field">
+            <button className="saveEdit-btn" onClick={saveUpdate}>Save</button>
+            <button className="saveEdit-btn" onClick={() => { history.push("/my-posts") }}>Cancel</button>
+        </div>
 
-        </div >
-    )
+    </div >
+)
 }
