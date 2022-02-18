@@ -58,7 +58,7 @@ export const Landing = () => {
                             <div className="imageposturl"><img src={each.image_url} /></div>
                             <div className="postfoot">
                                 <div>
-                                    <div> Author: {each.user?.first_name} {each.user?.last_name}</div>
+                                    <div> Author: <Link to={`/users/${each.user.id}`}>{each.user?.user?.first_name} {each.user?.user?.last_name}</Link></div>
                                 </div>
 
                                 <div className="rightfoot">

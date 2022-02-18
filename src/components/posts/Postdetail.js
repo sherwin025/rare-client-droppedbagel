@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { useParams } from "react-router-dom"
 import { getSinglePost, GetPostReactions, New_reaction, deletePostReaction, GetReactions, updatePost, deletePost, addReaction } from "./PostManager"
 import { Message, AddCircleOutline, FastfoodOutlined } from '@material-ui/icons';
@@ -158,7 +159,7 @@ export const PostDetail = () => {
             }
             <div className="postDetailImage"><img src={post.image_url}></img></div>
             <div className="postDetailBottom">
-                <div className="postDetailName">By {post.user?.user?.first_name} {post.user?.user?.last_name}</div>
+                <div className="postDetailName">By <Link to={`/users/${post.user?.id}`}>{post.user?.user?.first_name} {post.user?.user?.last_name}</Link></div>
                 <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
 
                 <div><button onClick={toggleNewDiag}>New Reaction</button></div>

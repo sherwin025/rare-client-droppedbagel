@@ -189,7 +189,7 @@ export const PostList = () => {
             filtered.map(each => {
                 return <div key={each.id} className="postObj">
                     <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
-                    <div className="postInfo"> {each.user?.user.first_name} {each.user?.user.last_name}</div>
+                    <div className="postInfo"> <Link to={`/users/${each.id}`}> {each.user?.user.first_name} {each.user?.user.last_name}</Link></div>
                     <div className="postInfo">{each.category?.label}</div>
                     {/* if the user is an admin */}
                     {admin == "true" ? <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div> : ''}
