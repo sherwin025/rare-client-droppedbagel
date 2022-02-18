@@ -161,8 +161,11 @@ export const PostDetail = () => {
             <div className="postDetailBottom">
                 <div className="postDetailName">By <Link to={`/users/${post.user?.id}`}>{post.user?.user?.first_name} {post.user?.user?.last_name}</Link></div>
                 <button className="postDetailViewComments" onClick={() => { history.push(`/comments/${post.id}`) }}>View Comments</button>
-
-                <div><button onClick={toggleNewDiag}>New Reaction</button></div>
+            {
+                localStorage.getItem("isStaff") == "true" ? 
+                <div><button onClick={toggleNewDiag}>New Reaction</button></div> : ""
+            }
+            
                 <Dialog open={newDiag} onClose={toggleNewDiag}>
                     <DialogTitle className="newReaction-title">Create New Reaction Option</DialogTitle>
                     <DialogContent className="newReaction-content">
