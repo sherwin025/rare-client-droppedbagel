@@ -14,6 +14,8 @@ import { CommentForm } from "./comments/CommentForm"
 import { EditPost } from "./posts/EditPost"
 import { Landing } from "./home/Landing"
 import { AdminPostList } from "./posts/adminPostList" 
+import { ReactionManagement } from "./reactions/ReactionManagement"
+
 
 export const ApplicationViews = () => {
   const admin = localStorage.getItem('isStaff') === "true"
@@ -36,6 +38,9 @@ export const ApplicationViews = () => {
     </Route>
     <Route exact path="/tags">
       <TagManagement />
+    </Route>
+    <Route exact path="/reactions">
+      <ReactionManagement />
     </Route>
     <Route exact path="/userposts">
       <UserPostList />

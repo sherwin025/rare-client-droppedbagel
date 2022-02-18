@@ -37,10 +37,10 @@ export const NavBar = ({ token, setToken }) => {
               <>
               <Link to="/posts" className="navbar-item">Posts</Link>
               {admin == "true" ? <Link to="/adminposts" className="navbar-item">AdminPosts</Link> : ''}
-              <Link to="/categories" className="navbar-item">Category Manager</Link>
+              {admin == "true" ? <Link to="/categories" className="navbar-item">Category Manager</Link> : "" }
               {admin == "true" ? <Link to="/users" className="navbar-item">User Management</Link> : "" }
-              
-              <Link to="/tags" className="navbar-item">Tag Management</Link>
+              {admin == "true" ? <Link to="/reactions" className="navbar-item">Reaction Management</Link> : "" }
+              {admin == "true" ? <Link to="/tags" className="navbar-item">Tag Management</Link> : "" }
               <Link to="/userposts" className="navbar-item">My Posts</Link>
               <Link to="/new-post" className="navbar-item">New Post</Link>
               </>
