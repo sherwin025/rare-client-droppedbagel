@@ -9,7 +9,6 @@ export const NavBar = ({ token, setToken }) => {
   const hamburger = useRef()
 
   const admin = localStorage.getItem('isStaff')
-  console.log(admin)
 
   const showMobileNavbar = () => {
     hamburger.current.classList.toggle('is-active')

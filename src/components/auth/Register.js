@@ -15,7 +15,6 @@ export const Register = ({ setToken }) => {
   const verifyPassword = useRef()
   const passwordDialog = useRef()
   const history = useHistory()
-  const profilepicurl = useRef()
   const [profilePic, setProfilePic] = useState("")
 
   const handleRegister = (e) => {
@@ -29,7 +28,6 @@ export const Register = ({ setToken }) => {
         email: email.current.value,
         password: password.current.value,
         bio: bio.current.value,
-        profile_image_url: profilepicurl.current.value,
         profile_pic: profilePic
       }
       // need to register user
@@ -54,10 +52,7 @@ export const Register = ({ setToken }) => {
 
   const createUserImageString = (event) => {
     getBase64(event.target.files[0], (base64ImageString) => {
-        console.log("Base64 of file is", base64ImageString);
         setProfilePic(base64ImageString)
-
-        // Update a component state variable to the value of base64ImageString
     });
 }
 
@@ -111,9 +106,6 @@ export const Register = ({ setToken }) => {
               </p>
             </div>
             <div className="field">
-              <div className="control">
-                <input className="input" type="text" placeholder="Profile Pic URL" ref={profilepicurl} />
-              </div>
               <input type="file" id="user_image" onChange={createUserImageString} />
             </div>
             <div className="field">
