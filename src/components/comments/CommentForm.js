@@ -1,46 +1,70 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom"
 import { GetPosts, getSinglePost } from "../posts/PostManager";
-import { addComment } from "./CommentManager";
+import { addComment, getSingleComment, updateComment } from "./CommentManager";
 import "./Comments.css"
 
-export const CommentForm = () => {
+export const CommentForm = ({edit}) => {
     const history = useHistory()
     const [userComment, setUserComment] = useState("")
     const [post, setPost] = useState({})
     const [userPostId, setUserPostId] = useState(0)
 
     const {postId} = useParams()
+    const {commentId} = useParams()
 
     useEffect(() => {
-        setUserPostId(postId)
+        if (edit && commentId) {
+        getSingleComment(parseInt(commentId)).then((r) => {
+            setPost(r.post)
+            setUserComment(r.text)
+        })
+    }
+}, [edit, commentId])
+
+    useEffect(() => {
+        if (postId) {
+            setUserPostId(postId)
+        }
     },[postId])
 
     useEffect(() => {
-        getSinglePost(postId).then(setPost)
-    }, [])
+        if (postId) {
+            getSinglePost(postId).then(setPost)
+        }
+    }, [postId])
 
 
     const saveComment = () => {
+        
         const newComment = {
             user: parseInt(localStorage.getItem("userid")),
-            post: parseInt(userPostId),
             text: userComment,
             date: Date.now()
         }
-        if (newComment.post_id !== 0) {
-            addComment(newComment)
-                .then(() => history.push(`/comments/${parseInt(userPostId)}`))
+        if (edit) {
+            newComment.post = post.id
+            updateComment(newComment, commentId)
+            .then(() => history.push(`/comments/${post.id}`))
+
         } else {
-            window.alert("Select a post to comment on")
+            if (newComment.post_id !== 0) {
+                newComment.post = parseInt(userPostId)
+                addComment(newComment)
+                    .then(() => history.push(`/comments/${parseInt(userPostId)}`))
+            } else {
+                window.alert("Select a post to comment on")
+            }
+
         }
     }
 
     return (
         <div className="comment-form">
-            <div className="form-title">Add a New Comment to "{post.title}"</div>
-            <textarea className="textarea comment-field" type="textarea" placeholder="Type your comment here..." name="label" id="comment"
+            <div className="form-title">{edit ? "Edit " : "Add a New "}Comment {edit ? "for " : "to "} <Link to={`/posts/${post.id}`}>{post.title}</Link></div>
+            <textarea className="textarea comment-field" type="textarea" value={userComment} placeholder="Type your comment here..." name="label" id="comment"
                 onChange={(e) => setUserComment(e.target.value)}></textarea>
             <div className="submit-btn">
             <button className="submit-comment-btn button" onClick={() => {

@@ -37,3 +37,24 @@ export const getCommentsByPost = (postId) => {
     })
         .then(res => res.json())
 }
+
+export const getSingleComment = (id) => {
+    return fetch(`http://localhost:8000/comments/${id}`, {
+        headers: {
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(res => res.json())
+}
+
+export const updateComment = (editedComment, commentId) => {
+    return fetch(`http://localhost:8000/comments/${commentId}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(editedComment)
+    })
+    .then(getAllComments)
+}
