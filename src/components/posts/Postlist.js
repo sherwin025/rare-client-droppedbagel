@@ -136,10 +136,17 @@ export const PostList = () => {
         updatedPost.approved = false
         updatedPost.user = post.user?.id
         updatedPost.category = post.category?.id
+        let postTags = []
+        if (post.tags?.length > 0) {
+            for (const tag of post.tags) {
+                postTags.push(tag.id)
+            }
+        }
+        updatedPost.tags = postTags
         console.log(updatedPost)
         updatePost(id, updatedPost)
             .then(() => Posts())
-  
+
     }
 
     const Posts = () => {
@@ -192,7 +199,7 @@ export const PostList = () => {
                     <div className="postInfo"> <Link to={`/users/${each.id}`}> {each.user?.user.first_name} {each.user?.user.last_name}</Link></div>
                     <div className="postInfo">{each.category?.label}</div>
                     {/* if the user is an admin */}
-                    {admin == "true" ? <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div> : ''}
+                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
                 </div>
             })
         }
