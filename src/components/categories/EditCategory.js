@@ -25,7 +25,7 @@ export const EditCategory = () => {
                 "Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("token")}`
             },
-        body: JSON.stringify(editedCat)}).then(history.push('/categories'))
+        body: JSON.stringify(editedCat)}).then( () => {history.push('/categories')})
 
 
     }
