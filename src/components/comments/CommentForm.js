@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom"
 import { GetPosts, getSinglePost } from "../posts/PostManager";
 import { addComment, getSingleComment, updateComment } from "./CommentManager";
 import "./Comments.css"
@@ -62,7 +63,7 @@ export const CommentForm = ({edit}) => {
 
     return (
         <div className="comment-form">
-            <div className="form-title">{edit ? "Edit " : "Add a New "}Comment {edit ? "for " : "to "} "{post.title}"</div>
+            <div className="form-title">{edit ? "Edit " : "Add a New "}Comment {edit ? "for " : "to "} <Link to={`/posts/${post.id}`}>{post.title}</Link></div>
             <textarea className="textarea comment-field" type="textarea" value={userComment} placeholder="Type your comment here..." name="label" id="comment"
                 onChange={(e) => setUserComment(e.target.value)}></textarea>
             <div className="submit-btn">
