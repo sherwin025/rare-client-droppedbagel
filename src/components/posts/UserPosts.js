@@ -42,7 +42,7 @@ export const UserPostList = () => {
 
     return (<>
         <div className="newpostbutton">
-        <button>New Post</button>
+        <button onClick={()=> history.push("/new-post")}>New Post</button>
 
         </div>
         <div className="mypostlist">
