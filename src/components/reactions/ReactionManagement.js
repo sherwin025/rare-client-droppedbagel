@@ -26,4 +26,4 @@ export const ReactionManagement = () => {
     <ReactionForm saveNewLabel={saveNewLabel} />
     </div>
   )
-}
+};
