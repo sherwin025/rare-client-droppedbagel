@@ -57,7 +57,7 @@ export const PostList = () => {
     // FUNCTIONS ---------------------------------------------------------------------------------------------------------------
     const filterCategory = (categoryid) => {
         if (categoryid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -65,7 +65,7 @@ export const PostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?catfilter=${categoryid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?catfilter=${categoryid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -78,7 +78,7 @@ export const PostList = () => {
 
     const filterUser = (userid) => {
         if (userid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -86,7 +86,7 @@ export const PostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?userfilter=${userid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?userfilter=${userid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -98,7 +98,7 @@ export const PostList = () => {
 
     const filterTag = (tagid) => {
         if (tagid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -106,7 +106,7 @@ export const PostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?tagfilter=${tagid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?tagfilter=${tagid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -118,7 +118,7 @@ export const PostList = () => {
 
     const searchFunction = (event) => {
         if (event.key === "Enter") {
-            return fetch(`http://localhost:8000/posts?search=${event.target.value}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?search=${event.target.value}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -198,8 +198,11 @@ export const PostList = () => {
                     <div className="postInfo"><Link to={`./posts/${each.id}`}> {each.title}</Link></div>
                     <div className="postInfo"> <Link to={`/users/${each.id}`}> {each.user?.user.first_name} {each.user?.user.last_name}</Link></div>
                     <div className="postInfo">{each.category?.label}</div>
-                    {/* if the user is an admin */}
-                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div>
+                    {
+                    localStorage.getItem("isStaff") === "true" ? 
+                    <div className="postInfo"><button onClick={() => {updateApproval(each.id)}}>Unapprove</button></div> : ""
+
+                    }
                 </div>
             })
         }

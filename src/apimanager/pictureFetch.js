@@ -7,7 +7,7 @@ export const postProfilePic = (picObj) => {
         },
         body: JSON.stringify(picObj)
     }
-    return fetch(`http://localhost:8000/profilePics`, fetchOptions)
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/profilePics`, fetchOptions)
     .then(response => response.json())
 
 }

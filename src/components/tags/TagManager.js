@@ -1,5 +1,5 @@
 export const getAllTags = () => {
-    return fetch("http://localhost:8000/tags", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/tags", {
         headers: {
             "Authorization": `Token ${localStorage.getItem('token')}`
         }
@@ -8,7 +8,7 @@ export const getAllTags = () => {
 }
 
 export const addTag = (new_tag) => {
-    return fetch("http://localhost:8000/tags", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/tags", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const addTag = (new_tag) => {
 }
 
 export const deleteTag = (tagId) => {
-    return fetch(`http://localhost:8000/tags/${tagId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/tags/${tagId}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Token ${localStorage.getItem('token')}`
@@ -30,7 +30,7 @@ export const deleteTag = (tagId) => {
 }
 
 export const updateTag = (editedTag, tagId) => {
-    return fetch(`http://localhost:8000/tags/${tagId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/tags/${tagId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

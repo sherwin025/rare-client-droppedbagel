@@ -78,7 +78,7 @@ export const UserPage = () => {
                
                 <div className="userBlock"><div className="user">
                     <p>Full Name: {user.user?.first_name} {user.user?.last_name} </p>
-                    <img src={`http://localhost:8000${user.profile_pic}`} alt="hello" />
+                    <img src={`https://dropped-bagels-media-co.herokuapp.com${user.profile_pic}`} alt="hello" />
                     {/* <p>Profile Image: {user.profile_image_url}</p> */}
                     <p>Username: {user.user?.username}</p>
                     <p>Email: {user.user?.username}</p>

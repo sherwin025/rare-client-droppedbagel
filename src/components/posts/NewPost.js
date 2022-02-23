@@ -38,7 +38,7 @@ export const NewPost = () => {
                     "postimage": basestring
                 }
 
-                fetch("http://localhost:8000/postimage", {
+                fetch("https://dropped-bagels-media-co.herokuapp.com/postimage", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

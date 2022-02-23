@@ -1,7 +1,7 @@
 
 
 export const getCategories = () => {
-    return fetch(`http://localhost:8000/categories`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/categories`, {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
     .then(res => res.json())
@@ -16,13 +16,13 @@ export const uploadCategory = (cat) => {
         },
         body: JSON.stringify(cat)
     }
-    return fetch(`http://localhost:8000/categories`, fetchOptions)
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/categories`, fetchOptions)
     .then(response => response.json())
 
 }
 
 export const deleteCategory = (id) => {
-    return fetch(`http://localhost:8000/categories/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/categories/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })

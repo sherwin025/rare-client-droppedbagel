@@ -67,7 +67,7 @@ export const AdminPostList = () => {
     // FUNCTIONS ---------------------------------------------------------------------------------------------------------------
     const filterCategory = (categoryid) => {
         if (categoryid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -75,7 +75,7 @@ export const AdminPostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?catfilter=${categoryid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?catfilter=${categoryid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -88,7 +88,7 @@ export const AdminPostList = () => {
 
     const filterUser = (userid) => {
         if (userid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -96,7 +96,7 @@ export const AdminPostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?userfilter=${userid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?userfilter=${userid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -108,7 +108,7 @@ export const AdminPostList = () => {
 
     const filterTag = (tagid) => {
         if (tagid == 0) {
-            return fetch(`http://localhost:8000/posts`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -116,7 +116,7 @@ export const AdminPostList = () => {
                 .then(res => res.json())
                 .then(res => setFiltered(res))
         } else {
-            return fetch(`http://localhost:8000/posts?tagfilter=${tagid}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?tagfilter=${tagid}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }
@@ -128,7 +128,7 @@ export const AdminPostList = () => {
 
     const searchFunction = (event) => {
         if (event.key === "Enter") {
-            return fetch(`http://localhost:8000/posts?search=${event.target.value}`, {
+            return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts?search=${event.target.value}`, {
                 headers: {
                     "Authorization": `Token ${localStorage.getItem("token")}`
                 }

@@ -7,21 +7,21 @@ export const uploadSubscription = (sub) => {
         },
         body: JSON.stringify(sub)
     }
-    return fetch(`http://localhost:8000/subscriptions`, fetchOptions)
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/subscriptions`, fetchOptions)
     .then(response => response.json())
 
 }
 
 export const getSubscriptions = () => {
-    return fetch(`http://localhost:8000/subscriptions`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/subscriptions`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
     .then(res => res.json())
 }
 
 export const getUsersSubscriptions = (id) => {
-    return fetch(`http://localhost:8000/subscriptions?author=${id}`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/subscriptions?author=${id}`, {headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
     .then(res => res.json())
 }
 
 export const deleteSubscription = (id) => {
-    return fetch(`http://localhost:8000/subscriptions/${id}`, {method: "DELETE", headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/subscriptions/${id}`, {method: "DELETE", headers: {"Authorization": `Token ${localStorage.getItem("token")}`}})
 }

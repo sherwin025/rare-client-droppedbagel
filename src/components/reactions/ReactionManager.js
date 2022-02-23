@@ -1,5 +1,5 @@
 export const getAllReactions = () => {
-    return fetch("http://localhost:8000/reactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/reactions", {
         headers: {
             "Authorization": `Token ${localStorage.getItem('token')}`
         }
@@ -8,7 +8,7 @@ export const getAllReactions = () => {
 }
 
 export const addReaction = (new_reaction) => {
-    return fetch("http://localhost:8000/reactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/reactions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const addReaction = (new_reaction) => {
 }
 
 export const deleteReaction = (reactionId) => {
-    return fetch(`http://localhost:8000/reactions/${reactionId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/reactions/${reactionId}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Token ${localStorage.getItem('token')}`
@@ -30,7 +30,7 @@ export const deleteReaction = (reactionId) => {
 }
 
 export const updateReaction = (editedreaction, reactionId) => {
-    return fetch(`http://localhost:8000/reactions/${reactionId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/reactions/${reactionId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

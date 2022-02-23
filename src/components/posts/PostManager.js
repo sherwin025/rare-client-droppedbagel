@@ -1,6 +1,6 @@
 export const GetPosts = () => {
 
-    return fetch("http://localhost:8000/posts", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/posts", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
@@ -8,7 +8,7 @@ export const GetPosts = () => {
 
 export const GetAdminPosts = () => {
 
-    return fetch("http://localhost:8000/posts?admin=true", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/posts?admin=true", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
@@ -16,7 +16,7 @@ export const GetAdminPosts = () => {
 
 export const GetUserPosts = () => {
 
-    return fetch("http://localhost:8000/posts?user=true", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/posts?user=true", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
@@ -24,14 +24,14 @@ export const GetUserPosts = () => {
 
 export const getSinglePost = (id) => {
 
-    return fetch(`http://localhost:8000/posts/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts/${id}`, {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
 }
 
 export const deletePost = (id) => {
-    return fetch(`http://localhost:8000/posts/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts/${id}`, {
 
         method: "DELETE",
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
@@ -40,7 +40,7 @@ export const deletePost = (id) => {
 }
 
 export const updatePost = (id, newPost) => {
-    return fetch(`http://localhost:8000/posts/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/posts/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -51,7 +51,7 @@ export const updatePost = (id, newPost) => {
 }
 
 export const New_post = (post_body) => {
-    return fetch("http://localhost:8000/posts", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/posts", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ export const New_post = (post_body) => {
 }
 
 export const New_entrytags = (post_body) => {
-    return fetch("http://localhost:8000/posttags", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/posttags", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export const New_entrytags = (post_body) => {
 
 export const GetPostReactions = () => {
 
-    return fetch("http://localhost:8000/postreactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/postreactions", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
@@ -83,14 +83,14 @@ export const GetPostReactions = () => {
 
 export const GetReactions = () => {
 
-    return fetch("http://localhost:8000/reactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/reactions", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())
 }
 
 export const New_reaction = (post_body) => {
-    return fetch("http://localhost:8000/postreactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/postreactions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ export const New_reaction = (post_body) => {
 }
 
 export const deletePostReaction = (id) => {
-    return fetch(`http://localhost:8000/postreactions/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/postreactions/${id}`, {
         method: "DELETE",
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
@@ -109,7 +109,7 @@ export const deletePostReaction = (id) => {
 
 
 export const addReaction = (reactionBody) => {
-    return fetch("http://localhost:8000/reactions", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/reactions", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -122,7 +122,7 @@ export const addReaction = (reactionBody) => {
 
 export const getPostImages = () => {
 
-    return fetch("http://localhost:8000/postimage", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/postimage", {
         headers: { "Authorization": `Token ${localStorage.getItem("token")}` }
     })
         .then(res => res.json())

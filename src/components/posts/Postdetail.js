@@ -154,7 +154,7 @@ export const PostDetail = () => {
             <div className="postdetailbottom"> publication date: {post.publication_date}</div>
             {
             post.pictures?.map(each => {
-                return <img src={`http://localhost:8000${each.postimage}`} alt="article"/>
+                return <img src={`https://dropped-bagels-media-co.herokuapp.com${each.postimage}`} alt="article"/>
             })
             }
             <div className="postDetailImage"><img src={post.image_url}></img></div>

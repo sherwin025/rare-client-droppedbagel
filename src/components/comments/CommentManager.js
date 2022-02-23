@@ -1,5 +1,5 @@
 export const getAllComments = () => {
-    return fetch("http://localhost:8000/comments", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/comments", {
         headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`
         }
@@ -8,7 +8,7 @@ export const getAllComments = () => {
 }
 
 export const addComment = (new_comment) => {
-    return fetch("http://localhost:8000/comments", {
+    return fetch("https://dropped-bagels-media-co.herokuapp.com/comments", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -20,7 +20,7 @@ export const addComment = (new_comment) => {
 }
 
 export const deleteComment = (commentId) => {
-    return fetch(`http://localhost:8000/comments/${commentId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/comments/${commentId}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`
@@ -30,7 +30,7 @@ export const deleteComment = (commentId) => {
 }
 
 export const getCommentsByPost = (postId) => {
-    return fetch(`http://localhost:8000/comments?post=${postId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/comments?post=${postId}`, {
         headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`
         }
@@ -39,7 +39,7 @@ export const getCommentsByPost = (postId) => {
 }
 
 export const getSingleComment = (id) => {
-    return fetch(`http://localhost:8000/comments/${id}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/comments/${id}`, {
         headers: {
             "Authorization": `Token ${localStorage.getItem("token")}`
         }
@@ -48,7 +48,7 @@ export const getSingleComment = (id) => {
 }
 
 export const updateComment = (editedComment, commentId) => {
-    return fetch(`http://localhost:8000/comments/${commentId}`, {
+    return fetch(`https://dropped-bagels-media-co.herokuapp.com/comments/${commentId}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",

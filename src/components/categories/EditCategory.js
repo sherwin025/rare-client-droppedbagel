@@ -19,7 +19,7 @@ export const EditCategory = () => {
             id: parseInt(catId)
         }
 
-        fetch(`http://localhost:8000/categories/${catId}`, {
+        fetch(`https://dropped-bagels-media-co.herokuapp.com/categories/${catId}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

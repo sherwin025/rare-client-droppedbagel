@@ -82,7 +82,7 @@ export const EditPost = () => {
                     "postimage": basestring
                 }
 
-                fetch(`http://localhost:8000/postimage/${findPostImage.id}`, {
+                fetch(`https://dropped-bagels-media-co.herokuapp.com/postimage/${findPostImage.id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
